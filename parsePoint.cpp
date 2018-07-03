@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 struct NMEA
@@ -9,10 +10,9 @@ struct NMEA
         int noFragment;  //Field3
         int seqId; //sequential message ID for multi-sentence message
         char radioChannel; //Field5
-        string dataPayload; //Field6
+	char dataPayload[60]; //Field6
         int fillBit; //Field7
-        string suffix; //
-
+        char suffix[2]; //
 
 }nmea;
 
@@ -32,30 +32,33 @@ char* champ_suivant(char* p){
 
 }
 
-int create_vector(char *vector,char* p){
-
+int create_vector(char *vector,char* p, int size){
 
 	long len=0; //taille entre 2 delimiter
 	long maxlen = 50;
-	char *pos = vector +9*8;
-	printf("adresse vecteur %p, adresse debut de while %p\n\n",vector,pos);
+	char *pos;
+       	pos = vector;// +9*8;
+	size = size -(champ_suivant(p) - p);
 	p = champ_suivant(p); //ON ENLEVE '!AIVDM,'
-	while(p != NULL && len < 63){ // IL FAUT trame.length() - (nbDelimiter) - "!AIVDM".length
-		printf("-------LEN -------> %ld",len);	
+	
+	while(p != NULL && len < size){ // IL FAUT trame.length() - (nbDelimiter) - "!AIVDM".length
 		memcpy(pos+len,p,champ_suivant(p)-p-1); //copy de la chaine entre 2 delimiter
-
-		printf("string copiée --> %s adress %p\n",pos,&pos+len*4);
-	//	printf("taille du bloc -> %ld\n",(-1)*(p-champ_suivant(p)));
-
-
-		len +=champ_suivant(p)-p-1; //on décale a chaque passage le '-' est pour le float
+		len +=champ_suivant(p)-p-1; //on décale d'un delimiter
 		p = champ_suivant(p);		
+		size--;
 	}
+
+	return size; //on eleve une virgule de trop au debut
+}
+int detectSuffix(){
+	//permet 
+
+
 
 	return 0;
 }
 
-int chargeNMEA(char *vector,void *NMEA){
+int chargeNMEA(char *vector,void *NMEA,unsigned long size){
 	// charge la structure NMEA avec le vecteur contenant la liste parsée sans les delimiters
 	
 	//IL FAUT CONVERTIR EN INT LES 3 PREMIERS BLOCS
@@ -63,8 +66,8 @@ int chargeNMEA(char *vector,void *NMEA){
 	 * de mettre des ints à la place des char précédents
 	 */
 
-	char *p = &(*vector)+9*8; //on se laisse la place pour mettre les ints
-	printf("adresse pointée ->  %p contenu -> %c\n",p,*p);
+	char* p =  &(*(vector+9)); //pointe sur vector[9]  
+
 	int nb;
 	int*pNb=&nb;
 	int i = 0;
@@ -72,54 +75,41 @@ int chargeNMEA(char *vector,void *NMEA){
 		&& *p >= 48
 		&& *p <= 57){	//test si une valeur numérique -> permet de s'arreter au 3eme bloc
 		
-		printf(" conversion de %c en %d",*p,(*p-'0'));
 		nb  = *p - '0';
 		memcpy(vector+sizeof(int)*i,pNb,sizeof(int));
 		p++;
 		i++;
 	}
 	
-
-	//maintenant que les ints sont converties on charge dans la structure
-	memcpy(NMEA,vector,20*sizeof(char));
-
-		
+	memcpy(NMEA,vector,size*sizeof(char));
 
 	return 0;
 }
 
-
-
 int main(){
-		printf("sizeof int ----->>>>>>%lu",sizeof(int));
 		string trameN = "!AIVDM,2,1,3,B,55P5TL01VIaAL@7WKO@mBplU@<PDhh000000001S;AJ::4A80?4i@E53,0*3E";
-		printf("len trameN %lu",trameN.length());
 		char* pointeur = &trameN[0];
+		unsigned long size = trameN.length();
 		char vector[trameN.length()-7+9-6]; //tableau contenant la trame sans delimiter
 		NMEA trameparsed;
 		void * pNMEA = &trameparsed;
 
-		char *pVect = &vector[0];
-			
-		create_vector(pVect,pointeur);
-		chargeNMEA(pVect,pNMEA);
-		//printf("vector apres parse ---> %d \n",vector);
-		cout << "nbFragment :" << trameparsed.nbFragment << endl;
-		cout << "noFragment" << trameparsed.noFragment << endl;
-		cout << "radioChannel" << trameparsed.radioChannel << endl;
-		cout << "data" << trameparsed.dataPayload << endl;
-		cout << "data" << trameparsed.dataPayload << endl;
+		char *pVect = &vector[9];//on pointe le 10eme byte pour laisser la place a la conversion des ints 
+		printf("adresse du vecteur: %p, adresse de case 9:%p\n\n",vector,pVect);
 
-	/*
-		cout << pointeur << "devrait etre une adresse non ?" << endl;
-		pointeur = champ_suivant(pointeur);
-		printf("adresse de p -> %p \n", pointeur);//&trameN[0];
+		size = create_vector(pVect,pointeur,size)+9; //avec les int
+		pVect = vector; //cettte fois on se place des le début de vetcor 
+		chargeNMEA(pVect,pNMEA,size);
 
+		for(int i=0;i<size;i++){
+			printf("case %d ---> %c\n",i,vector[i]);
+		}
 
-		pointeur = champ_suivant(pointeur);
-		printf("adresse de p -> %p \n", pointeur);//&trameN[0];
-
-		printf("adresse de debut de trame -> %p", &trameN[0]);//&trameN[0];
-	*/
+		cout << "nbFragment : " << trameparsed.nbFragment << endl;
+		cout << "noFragment: " << trameparsed.noFragment << endl;
+		cout << "radioChannel: " << trameparsed.radioChannel << endl;
+		cout << "dataPayload: " << trameparsed.dataPayload<< endl;
+	
+		return 0;
 }
 
