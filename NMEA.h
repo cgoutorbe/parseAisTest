@@ -9,7 +9,8 @@ class NMEA{
 		
 		//Pour l'instant les attributs sont public
 		//il faudra ajouter getter et setter et les décaler en private
-
+		// commentaire test branche
+	
 		int nbFragment;  //Field2
 		int noFragment;  //Field3
 		int seqId; //sequential message ID for multi-sentence message
