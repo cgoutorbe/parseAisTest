@@ -15,8 +15,6 @@ class NMEA{
 		int noFragment;  //Field3
 		int seqId; //sequential message ID for multi-sentence message
 		char radioChannel; //Field5
-		int fillBit; //Field7
-		char suffix[2]; //
 		char dataPayload[83]; //Field6
 
 		NMEA surcharge(); 

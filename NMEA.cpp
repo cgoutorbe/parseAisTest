@@ -11,9 +11,7 @@ NMEA::NMEA(){
         int noFragment;  //Field3
         int seqId; //sequential message ID for multi-sentence message
         char radioChannel; //Field5
-        char suffix[2]; //
-        int fillBit; //Field7
-        char dataPayload[83]; //Field6
+	char dataPayload[83]="000000000000000000000000000000000000000000000000000000000000000000"; //Field6
 	std::cout << "creation trame" << std::endl;
 
 };
@@ -25,8 +23,11 @@ NMEA NMEA::surcharge(){
 };
 void NMEA::represent(){
 
-	//printf("%d\n,%d\n,%d\n,%c,   %c  \n",fillBit,nbFragment,seqId,radioChannel,dataPayload[54]);
-
+	printf(" NB FRAGMENT: %d \n",nbFragment);
+	printf(" NO FRAGMENT: %d \n",noFragment);
+	printf(" SEQ ID: %d \n", seqId);
+	printf(" RADIO CHANNEL: %c \n", radioChannel);
+	printf(" DATA PAYLOAD: %s \n", dataPayload);
 
 }
 
