@@ -5,7 +5,7 @@ class NMEA{
 
 	
 	public:
-		NMEA(const int size);
+		NMEA();
 		
 		//Pour l'instant les attributs sont public
 		//il faudra ajouter getter et setter et les décaler en private
