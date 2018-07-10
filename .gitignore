@@ -3,3 +3,4 @@ NMEA
 NMEA.o
 parsePoint
 parsePoint.o
+check.o
