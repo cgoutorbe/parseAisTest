@@ -16,7 +16,6 @@ char ahextobin( char *c )
 unsigned char asc_to_hex(char *p){
 	unsigned char v = 0;
 	int i = 0;
-	printf(" val de p %c\n",*(p+1));
 	v = ahextobin(p) << 4;
 	v += ahextobin(p+1);
 	printf(" CHECKSUM READ -> %#08X \n",v);
@@ -49,18 +48,3 @@ int check_nmea_checksum(char* read, char *p){
 
 	return (asc_to_hex(read) == calcSum);
 }
-	/*
-        cout <<"calcsum --->>" << calcSum << endl;
-        nmea_checksum(pcalcSum,p);
-        cout <<"calcsum --->>" << calcSum << endl;
-        printf("check calc -> %s\n",calcSum);
-*/
-/*
-        //convert char from read checksum to hexa
-        sum = ahextobin(p) << 4; //first convert to binary then move 4bits then convert
-        sum += ahextobin(p+1);
-
-        readSum =ahextobin(read) <<4;
-        readSum +=ahextobin(read+1);
-
-        if(readSum == sum){return 0; } */
