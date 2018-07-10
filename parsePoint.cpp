@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "NMEA.h"
+#include "check.h"
 
 using namespace std;
 
@@ -39,20 +40,6 @@ unsigned int  nmea_uint( char *p )
 
     return i;    
 }
-char ahextobin( char *c )
-{
-    if( (*c >= '0') && (*c <= '9') )
-    {
-        return *c - '0';
-    } else if( (*c >= 'A') && (*c <= 'F') ) {
-        return *c - ('A'-10);
-    } else if( (*c >= 'a') && (*c <= 'f') ) {
-        return *c - ('a'-10);
-    }
-    
-    return -1;
-}
-
 
 int end_trame(char* p,int i){
 
@@ -87,11 +74,15 @@ char* create_vector(char* vector, char *p){
 	}
 		i++; //elimine les 3 ints
 	}
-	return p;
+	p = champ_suivant(p); //decale de dataPayload
+	return champ_suivant(p); //decale du FillBit on a le checksum direct
 	}
 
 int main(){
-		string trameN = "!AIVDM,2,1,3,B,55P5TL01VIaAL@7WKO@mBplU@<PDhh000000001S;AJ::4A80?4i@E53,7*3E";
+		string trameN2 = "!AIVDM,2,1,3,B,55P5TL01VIaAL@7WKO@mBplU@<PDhh000000001S;AJ::4A80?4i@E53,7*3E";
+		string trameN3 = "!AIVDM,1,1,,A,15N;<J0P00Jro1<H>bAP0?vL00Rb,0*1B";
+
+		string trameN = "!AIVDM,1,1,,A,19NWoq000Wrt<RJHEuuqiWlN061d,0*5F";
 		/********************************************************
 		 * 							*
 		 * 		DEROULEMENT DU PROGRAMME 		*
@@ -99,10 +90,28 @@ int main(){
 		 ********************************************************/
 
 		char *pointeur = &trameN[0];
+		char *pCheck;
 		NMEA trameStruct;
 		char* pTrame =(char*) &trameStruct;	
-		create_vector(pTrame,pointeur);
+
+		pCheck = create_vector(pTrame,pointeur);
 		trameStruct.represent();
+		
+		/********************************************************
+		 * 							*
+		 * 		     AVEC CHECKSUM                      * 
+		 * 							*
+		 ********************************************************/
+		
+		unsigned char checksum;
+		unsigned char* pchecksum = &checksum;
+
+		//printf(" avant -> %c",checksum);
+	        //nmea_checksum(pchecksum,pointeur);
+		//printf(" apres-> %c",checksum);
+		cout << check_nmea_checksum(pCheck,pointeur) << endl;
+
+
 
 		return 0;
 }
