@@ -11,7 +11,9 @@ NMEA::NMEA(){
         int noFragment;  //Field3
         int seqId; //sequential message ID for multi-sentence message
         char radioChannel; //Field5
-	char dataPayload[83]="000000000000000000000000000000000000000000000000000000000000000000"; //Field6
+	char dataPayload[83];
+	std::fill(dataPayload,dataPayload+83,0);
+
 	std::cout << "creation trame" << std::endl;
 
 };
