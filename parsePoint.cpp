@@ -79,10 +79,10 @@ char* create_vector(char* vector, char *p){
 	}
 
 int main(){
-		string trameN2 = "!AIVDM,2,1,3,B,55P5TL01VIaAL@7WKO@mBplU@<PDhh000000001S;AJ::4A80?4i@E53,7*3E";
-		string trameN3 = "!AIVDM,1,1,,A,15N;<J0P00Jro1<H>bAP0?vL00Rb,0*1B";
+		string trameN = "!AIVDM,2,1,3,B,55P5TL01VIaAL@7WKO@mBplU@<PDhh000000001S;AJ::4A80?4i@E53,7*3E";
+		string trameN2 = "!AIVDM,1,1,,A,15N;<J0P00Jro1<H>bAP0?vL00Rb,0*1B";
 
-		string trameN = "!AIVDM,1,1,,A,19NWoq000Wrt<RJHEuuqiWlN061d,0*5F";
+		string trameN1 = "!AIVDM,1,1,,A,19NWoq000Wrt<RJHEuuqiWlN061d,0*5F";
 		/********************************************************
 		 * 							*
 		 * 		DEROULEMENT DU PROGRAMME 		*

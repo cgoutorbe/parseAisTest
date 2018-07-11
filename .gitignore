@@ -4,3 +4,4 @@ NMEA.o
 parsePoint
 parsePoint.o
 check.o
+thread

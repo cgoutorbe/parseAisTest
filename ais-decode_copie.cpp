@@ -133,7 +133,7 @@ int main(int argc, char **ais)
 		y = (x+1) * 6-5;
 		ais_binary.append(six_bit_table[z]);
 	}
-	//Decodage: convertion binaire to number (=> code ASCII)
+	//Decodage: conversion binary to number (=> code ASCII)
 	string temp_s = ais_binary.substr(0,6);
 	int ais_message_type = bin_to_int(temp_s);
 

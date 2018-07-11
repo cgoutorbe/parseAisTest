@@ -5,3 +5,5 @@ NMEA.o: NMEA.h NMEA.cpp
 	g++ -c NMEA.cpp -o NMEA.o
 check.o: check.h check.cpp
 	g++ -c check.cpp -o check.o
+thread: thread.cpp
+	g++ thread.cpp -o thread
