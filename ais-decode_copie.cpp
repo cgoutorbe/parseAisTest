@@ -38,7 +38,7 @@ void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
 }
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------MAIN--------------------------------------------------------
-int main(int argc, char **ais)
+int main(int argc, char *argv [])
 {
 	string ais2;
 
@@ -116,11 +116,11 @@ int main(int argc, char **ais)
 	ros::NodeHandle n;
 	//Publisher
 	ros::Publisher chat_lat = n.advertise<std_msgs::UInt32MultiArray>("Lat_Long_Bat", 1000);
-	srd_msgs::UInt32MultiArray mes_latlong;
+	std_msgs::Float64MultiArray mes_latlong;
 
 	//Subscriber
-	ros::Subscriber sub_nom_cata = n.subscribe("ID", 1000, ChatBack_ID);
-	ros::Subscriber sub_nom_cata = n.subscribe("Data_payload", 1000, ChatBack_data_payload);
+	ros::Subscriber sub_id_cata = n.subscribe("ID", 1000, ChatBack_ID);
+	ros::Subscriber sub_data_payload = n.subscribe("Data_payload", 1000, ChatBack_data_payload);
 
 	ros::Rate loop_rate(20);
 	while(ros::ok()){
@@ -178,12 +178,12 @@ int main(int argc, char **ais)
 
 	//Remplissage du message pour garder une trace
 	Message mess;
-	mess::SET(mess, id, ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
+	mess.SET( id, ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
 	mes_latlong.data[0] = mess.m_latitude;
 	mes_latlong.data[1] = mess.m_longitude;
 
 	//Envoie des Messages
-	chat_lat.publsher(mes_latlong)
+	chat_lat.publisher(mes_latlong)
 
 	ros::spinOnce();
 	loop_rate.sleep();

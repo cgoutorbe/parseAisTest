@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include "Message.h"
+#include "bitset"
+#include "iomanip"
 
 using namespace std;
 
@@ -24,7 +26,7 @@ void Message::Show() const
 	cout<<"\ntrue heading = \t\t"<< this->m_heading;
 }
 
-void Message::SET(Message m, string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int){
+void Message::SET(string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading){
   this->m_id = id
   this->m_type = type
   this->m_repeat_indic = repeat_indic

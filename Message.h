@@ -6,7 +6,7 @@ class Message
 public:
   Message(); // Constructeur
   void Show() const; // Affichage
-  void SET(Message m, string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int);
+  void SET(Mstd::string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading);
 
 private:
   std::string m_id;
