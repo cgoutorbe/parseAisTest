@@ -11,9 +11,6 @@
 #include <signal.h>
 #include <string.h>
 
-
-//comment
-
 int create_socket(){
 
 	//creer une socket permettant de communiquer avec l'antenne au port
