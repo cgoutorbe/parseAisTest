@@ -18,9 +18,8 @@ int create_socket(){
 	//127.0.0.1::10110
 	int sock;
 	int port = 10110;
-	char *username;
 	struct hostent *hote;
-	struct sockaddr_in adr;
+	struct sockaddr_in adr; //definition du socket
 
 	if ( (sock= socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0 ) //AF_INET for IPv4 
 	{
@@ -38,17 +37,19 @@ int create_socket(){
 		exit(1);
 	}
 	char c;
-
+	/*
 	do
 	{
 		c = EOF;
 		read(sock, &c, 1);
+		recv(sock)
 		printf("%c \n",c);
 		//putchar(c);
 	}
 	while (c!=EOF);
+	*/
 
-	return 0;
+	return sock;
 }
 
 int fetchUDP(){
@@ -63,13 +64,7 @@ int fetchUDP(){
 int main(){
 
 	create_socket();
-	while(1){
-		if(cin = 'a'){
-			fetchUDP();
-			
 
-
-	}
 
 
 	return 0;
