@@ -27,18 +27,18 @@ void Message::Show() const
 }
 
 void Message::SET(string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading){
-  m_id = id
-  m_type = type
-  m_repeat_indic = repeat_indic
-  m_mmsi = mmsi
-  m_navig_statu = navig_statu
-  m_rate_of_turn = rate_of_turn
-  m_speed = speed
-  m_pos_accuracy = pos_accuracy
-  m_longitude = longitude
-  m_latitude = latitude
-  m_course = course
-  m_heading = heading
+  m_id = id;
+  m_type = type;
+  m_repeat_indic = repeat_indic;
+  m_mmsi = mmsi;
+  m_navig_statu = navig_statu;
+  m_rate_of_turn = rate_of_turn;
+  m_speed = speed;
+  m_pos_accuracy = pos_accuracy;
+  m_longitude = longitude;
+  m_latitude = latitude;
+  m_course = course;
+  m_heading = heading;
 }
 //setter
 void Message::setId(string id){ m_id = id; }
@@ -54,15 +54,15 @@ void Message::setLatitude(double latitude){ m_latitude = latitude; }
 void Message::setCourse(int course){ m_course = course; }
 void Message::setHeading(int heading){ m_heading = heading; }
 //getter
-void Message::getId() const { return m_id; }
-void Message::getType() const { return m_type; }
-void Message::getRepeat_indic() const { return m_repeat_indic; }
-void Message::getMmsi() const { return m_mmsi; }
-void Message::getNavig_statu() const { return m_navig_statu; }
-void Message::getRate_of_turn() const { return m_rate_of_turn; }
-void Message::getSpeed() const { return m_speed; }
-void Message::getPos_accuracy() const { return m_pos_accuracy; }
-void Message::getLongitude() const { return m_longitude; }
-void Message::getLatitude() const { return m_latitude; }
-void Message::getCourse() const { return m_course; }
-void Message::getHeading() const { return m_heading; }
+string Message::getId() const { return m_id; }
+int Message::getType() const { return m_type; }
+int Message::getRepeat_indic() const { return m_repeat_indic; }
+double Message::getMmsi() const { return m_mmsi; }
+int Message::getNavig_statu() const { return m_navig_statu; }
+int Message::getRate_of_turn() const { return m_rate_of_turn; }
+int Message::getSpeed() const { return m_speed; }
+int Message::getPos_accuracy() const { return m_pos_accuracy; }
+double Message::getLongitude() const { return m_longitude; }
+double Message::getLatitude() const { return m_latitude; }
+int Message::getCourse() const { return m_course; }
+int Message::getHeading() const { return m_heading; }

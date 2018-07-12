@@ -9,7 +9,7 @@ public:
   //setter global
   void SET(std::string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading);
   //setter
-  void setId(string id);
+  void setId(std::string id);
   void setType(int type);
   void setRepeat_indic(int repeat_indic);
   void setMmsi(double mmsi);
@@ -22,18 +22,18 @@ public:
   void setCourse(int course);
   void setHeading(int heading);
   //getter
-  void getId() const;
-  void getType() const;
-  void getRepeat_indic() const;
-  void getMmsi() const;
-  void getNavig_statu() const;
-  void getRate_of_turn() const;
-  void getSpeed() const;
-  void getPos_accuracy() const;
-  void getLongitude() const;
-  void getLatitude() const;
-  void getCourse() const;
-  void getHeading() const;
+  std::string getId() const;
+  int getType() const;
+  int getRepeat_indic() const;
+  double getMmsi() const;
+  int getNavig_statu() const;
+  int getRate_of_turn() const;
+  int getSpeed() const;
+  int getPos_accuracy() const;
+  double getLongitude() const;
+  double getLatitude() const;
+  int getCourse() const;
+  int getHeading() const;
 
 private:
   std::string m_id;
