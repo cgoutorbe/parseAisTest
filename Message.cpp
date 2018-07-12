@@ -26,7 +26,7 @@ void Message::Show() const
 	cout<<"\ntrue heading = \t\t"<< m_heading;
 }
 
-void Message::setAll(string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading){
+void Message::setAll(string id, int type, int repeat_indic, dint mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading){
   m_id = id;
   m_type = type;
   m_repeat_indic = repeat_indic;
@@ -44,7 +44,7 @@ void Message::setAll(string id, int type, int repeat_indic, double mmsi, int nav
 void Message::setId(string id){ m_id = id; }
 void Message::setType(int type){ m_type = type; }
 void Message::setRepeat_indic(int repeat_indic){ m_repeat_indic = repeat_indic; }
-void Message::setMmsi(double mmsi){ m_mmsi = mmsi; }
+void Message::setMmsi(int mmsi){ m_mmsi = mmsi; }
 void Message::setNavig_statu(int navig_statu){ m_navig_statu = navig_statu; }
 void Message::setRate_of_turn(int rate_of_turn){ m_rate_of_turn = rate_of_turn; }
 void Message::setSpeed(int speed){ m_speed = speed; }
@@ -57,7 +57,7 @@ void Message::setHeading(int heading){ m_heading = heading; }
 string Message::getId() const { return m_id; }
 int Message::getType() const { return m_type; }
 int Message::getRepeat_indic() const { return m_repeat_indic; }
-double Message::getMmsi() const { return m_mmsi; }
+int Message::getMmsi() const { return m_mmsi; }
 int Message::getNavig_statu() const { return m_navig_statu; }
 int Message::getRate_of_turn() const { return m_rate_of_turn; }
 int Message::getSpeed() const { return m_speed; }
