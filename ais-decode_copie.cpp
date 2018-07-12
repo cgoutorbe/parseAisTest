@@ -133,7 +133,7 @@ int main(int argc, char *argv [])
 		y = (x+1) * 6-5;
 		ais_binary.append(six_bit_table[z]);
 	}
-	//Decodage: conversion binary to number (=> code ASCII)
+	//Decodage: convertion binaire to number (=> code ASCII)
 	string temp_s = ais_binary.substr(0,6);
 	int ais_message_type = bin_to_int(temp_s);
 
@@ -179,11 +179,11 @@ int main(int argc, char *argv [])
 	//Remplissage du message pour garder une trace
 	Message mess;
 	mess.SET( id, ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
-	mes_latlong.data[0] = mess.m_latitude;
-	mes_latlong.data[1] = mess.m_longitude;
+	mes_latlong.data[0] = mess.getLatitude();
+	mes_latlong.data[1] = mess.getLongitude();
 
 	//Envoie des Messages
-	chat_lat.publisher(mes_latlong)
+	chat_lat.publish(mes_latlong)
 
 	ros::spinOnce();
 	loop_rate.sleep();
