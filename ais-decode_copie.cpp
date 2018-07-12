@@ -177,13 +177,13 @@ int main(int argc, char *argv [])
 	int ais_true_heading = bin_to_int(temp_s);
 
 	//Remplissage du message pour garder une trace
-	Message mess;
-	mess.SET( id, ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
-	mes_latlong.data[0] = mess.getLatitude();
-	mes_latlong.data[1] = mess.getLongitude();
+	Message message;
+	message.setAll( id, ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
+	mes_latlong.data[0] = message.getLatitude();
+	mes_latlong.data[1] = message.getLongitude();
 
 	//Envoie des Messages
-	chat_lat.publish(mes_latlong)
+	chat_lat.publish(mes_latlong);
 
 	ros::spinOnce();
 	loop_rate.sleep();

@@ -7,7 +7,7 @@ public:
   Message(); // Constructeur
   void Show() const; // Affichage
   //setter global
-  void SET(std::string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading);
+  void setAll(std::string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading);
   //setter
   void setId(std::string id);
   void setType(int type);

@@ -26,7 +26,7 @@ void Message::Show() const
 	cout<<"\ntrue heading = \t\t"<< m_heading;
 }
 
-void Message::SET(string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading){
+void Message::setAll(string id, int type, int repeat_indic, double mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading){
   m_id = id;
   m_type = type;
   m_repeat_indic = repeat_indic;
