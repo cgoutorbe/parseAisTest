@@ -7,7 +7,7 @@ public:
   Message(); // Constructeur
   void Show() const; // Affichage
   //setter global
-  void setAll(std::string id, int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading);
+  void setAll(std::string id, int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, std::string pos_accuracy, double longitude, double latitude, int course, int heading);
   //setter
   void setId(std::string id);
   void setType(int type);
@@ -16,7 +16,7 @@ public:
   void setNavig_statu(int navig_statu);
   void setRate_of_turn(int rate_of_turn);
   void setSpeed(int speed);
-  void setPos_accuracy(int pos_accuracy);
+  void setPos_accuracy(std::string pos_accuracy);
   void setLongitude(double longitude);
   void setLatitude(double latitude);
   void setCourse(int course);
@@ -29,7 +29,7 @@ public:
   int getNavig_statu() const;
   int getRate_of_turn() const;
   int getSpeed() const;
-  int getPos_accuracy() const;
+  std::string getPos_accuracy() const;
   double getLongitude() const;
   double getLatitude() const;
   int getCourse() const;
@@ -43,7 +43,7 @@ private:
   int m_navig_statu;
   int m_rate_of_turn;
   int m_speed;
-  int m_pos_accuracy;
+  std::string m_pos_accuracy;
   double m_longitude;
   double m_latitude;
   int m_course;

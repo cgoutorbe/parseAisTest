@@ -26,7 +26,7 @@ void Message::Show() const
 	cout<<"\ntrue heading = \t\t"<< m_heading;
 }
 
-void Message::setAll(string id, int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, int pos_accuracy, double longitude, double latitude, int course, int heading){
+void Message::setAll(string id, int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, string pos_accuracy, double longitude, double latitude, int course, int heading){
   m_id = id;
   m_type = type;
   m_repeat_indic = repeat_indic;
@@ -48,7 +48,7 @@ void Message::setMmsi(int mmsi){ m_mmsi = mmsi; }
 void Message::setNavig_statu(int navig_statu){ m_navig_statu = navig_statu; }
 void Message::setRate_of_turn(int rate_of_turn){ m_rate_of_turn = rate_of_turn; }
 void Message::setSpeed(int speed){ m_speed = speed; }
-void Message::setPos_accuracy(int pos_accuracy){ m_pos_accuracy = pos_accuracy; }
+void Message::setPos_accuracy(string pos_accuracy){ m_pos_accuracy = pos_accuracy; }
 void Message::setLongitude(double longitude) { m_longitude = longitude; }
 void Message::setLatitude(double latitude){ m_latitude = latitude; }
 void Message::setCourse(int course){ m_course = course; }
@@ -61,7 +61,7 @@ int Message::getMmsi() const { return m_mmsi; }
 int Message::getNavig_statu() const { return m_navig_statu; }
 int Message::getRate_of_turn() const { return m_rate_of_turn; }
 int Message::getSpeed() const { return m_speed; }
-int Message::getPos_accuracy() const { return m_pos_accuracy; }
+string Message::getPos_accuracy() const { return m_pos_accuracy; }
 double Message::getLongitude() const { return m_longitude; }
 double Message::getLatitude() const { return m_latitude; }
 int Message::getCourse() const { return m_course; }
