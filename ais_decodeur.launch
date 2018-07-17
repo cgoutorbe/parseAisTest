@@ -1,0 +1,5 @@
+<launch>
+
+  <node name="ais_decode_copie" pkg="ais_decodeur" type="ais_decodeur_copie"/>
+
+</launch>
