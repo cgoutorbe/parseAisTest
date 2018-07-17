@@ -37,7 +37,7 @@ void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
 }
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------MAIN--------------------------------------------------------
-int main(int argc, char *argv [])
+int main(int argc, char **argv)
 {
 	string ais2;
 
@@ -152,7 +152,7 @@ int main(int argc, char *argv [])
 	temp_s = ais_binary.substr(50,10);
 	int ais_speed_over_ground = bin_to_int(temp_s)/10;
 
-	string ais_position_accuracy = ais_binary.substr(60,1);
+	string  = ais_binary.substr(60,1);
 
 	char west = ais_binary[61];
 	temp_s = ais_binary.substr(61,28);
