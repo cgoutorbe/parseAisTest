@@ -34,18 +34,18 @@ void ChatBack_Coor_Bats(const std_msgs::Float64MultiArray::ConstPtr& msg){
 	long_bats = msg->data[1];
 }
 
-double Calcul_dist(double lat_A,double lon_A,double lat_B,double lon_B){
-	R = 6371000; //Rayon de la terre en metre
-	D = R * arcos(sin(lat_A) * sin(lat_B) + cos(lat_A) * cos(lat_B) * cos(long_B - long_A));
+double Calcul_dist(double lat_A,double long_A,double lat_B,double long_B){
+	double R = 6371000; //Rayon de la terre en metre
+	double D = R * arcos(sin(lat_A) * sin(lat_B) + cos(lat_A) * cos(lat_B) * cos(long_B - long_A));
 	return D;
 }
 
-void Maj_tab(double dist[], string nom[], string nom_B, double distance){
-	for(int i(0); i<dist; i++){
-		elif(nom_B = nom[i]){dist[i] = distance} //Maj de la distance avec nouvelles coordonnees
-		elif(nom[i] = "NOM#"){
-			nom[i] = nom_B;
-			dist[i] = distance;}
+void Maj_tab(double t_dist[], string t_nom[], string nom_B, double distance){
+	for(int i(0); i < dist; i++){
+		elif(nom_B = t_nom[i]){t_dist[i] = distance} //Maj de la distance avec nouvelles coordonnees
+		elif(t_nom[i] = "NOM#"){
+			t_nom[i] = nom_B;
+			t_dist[i] = distance;}
 		else
 			continue;
 	}
@@ -56,12 +56,12 @@ void Maj_tab(double dist[], string nom[], string nom_B, double distance){
 
 int main(int argc, char **argv){
 //Init variable
-	double dist;
-	string nom_bats[100];
-	float dist[100];
-	for(int i(0); i<nom; ++i){
-		dist[i] = pow(10,100);
-		nom_bats = "NOM#";
+	double distance;
+	string t_nom_bats[100];
+	float t_dist[100];
+	for(int i(0); i<t_nom.length(); ++i){
+		t_dist[i] = pow(10,100);
+		t_nom_bats = "NOM#";
 	}
 //Initialisation ROS
 	ros::init(argc, argv, "calc_distance_node");
@@ -80,10 +80,10 @@ int main(int argc, char **argv){
 	ros::Rate loop_rate(20);
 	while(ROS::ok()){
 		//Calcul de distance
-		dist = Calcul_dist(lat_cata,long_cata,lat_bats,long_bats); //TODO a voir si l'on ne met pas dans la fonction
+		distance = Calcul_dist(lat_cata,long_cata,lat_bats,long_bats); //TODO a voir si l'on ne met pas dans la fonction
 		//Remplissage & Publication
-		for(int i(0); i<nom; ++i){
-			dist_bateau.data[i] = dist[i]; //peut etre faire a la main car ROS n accepte pas ca
+		for(int i(0); i < t_nom.length(); ++i){
+			dist_bateau.data[i] = t_dist[i]; //peut etre faire a la main car ROS n accepte pas ca
 		}
 		chat_dist.publish(dist_bateau);
 		ros::spinOnce();
