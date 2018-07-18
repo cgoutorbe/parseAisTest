@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 
 	unsigned int x,st=0,fn=0;
 	//Initialisation ROS
-	ros::init(argc, argv, "ais_decodeur");
+	ros::init(argc, argv, "ais_decodeur_node");
 	ros::NodeHandle n;
 
 	//Publisher & declaration message

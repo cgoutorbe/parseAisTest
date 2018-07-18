@@ -5,6 +5,7 @@
 #include "std_msgs/UInt32MultiArray.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
+#include "gps_common/GPSFix.h"//GPS data
 #include <cmath>
 
 using namespace std;
@@ -19,16 +20,16 @@ double long_cata = 0;
 
 //TODO Verifier avec Charlie les type de donnees envoyées
 
-void ChatBack_Coor_Cata(const std_msgs::Float64MultiArray::ConstPtr& msg){
-	lat_cata = msg->data[0];
-	long_cata = msg->data[1];
+void ChatBack_Coor_Cata(const gps_common::GPSFix::ConstPtr& msg){
+	lat_cata = msg->latitude;
+	long_cata = msg->longitude;
 }
 
 void ChatBack_Nom_Bat(const std_msgs::String::ConstPtr& msg){
 	nom_bat = msg->data;
 }
 
-void ChatBack_Coor_Bats(const std_msgs::Float64Float64MultiArray::ConstPtr& msg){
+void ChatBack_Coor_Bats(const std_msgs::Float64MultiArray::ConstPtr& msg){
 	lat_bats = msg->data[0];
 	long_bats = msg->data[1];
 }
@@ -63,12 +64,12 @@ int main(int argc, char **argv){
 		nom_bats = "NOM#";
 	}
 //Initialisation ROS
-	ros::init(argc, argv, "talker");
+	ros::init(argc, argv, "calc_distance_node");
 	ros::NodeHandle n;
 //Publisher
 	//ros::Publisher chat_tram = n.advertise<std_msgs::UInt32MultiArray>("Nom_bats", 1000);
 	ros::Publisher chat_dist = n.advertise<std_msgs::Float64MultiArray>("Dist_bats", 1000);
-	ros::Publisher chat_dist = n.advertise<std_msgs::Float64MultiArray>("Dist_bats", 1000);
+	//ros::Publisher chat_dist = n.advertise<std_msgs::Float64MultiArray>("Dist", 1000);
 //Creation message
 	std_msgs::Float64Float64MultiArray dist_bateau;
 //Subscriber
