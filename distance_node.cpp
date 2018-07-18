@@ -41,7 +41,7 @@ double Calcul_dist(double lat_A,double long_A,double lat_B,double long_B){
 }
 
 void Maj_tab(double t_dist[], string t_nom[], string nom_B, double distance){
-	for(int i(0); i < dist; i++){
+	for(int i(0); i < t_dist.length(); i++){
 		elif(nom_B = t_nom[i]){t_dist[i] = distance} //Maj de la distance avec nouvelles coordonnees
 		elif(t_nom[i] = "NOM#"){
 			t_nom[i] = nom_B;
@@ -80,7 +80,8 @@ int main(int argc, char **argv){
 	ros::Rate loop_rate(20);
 	while(ROS::ok()){
 		//Calcul de distance
-		distance = Calcul_dist(lat_cata,long_cata,lat_bats,long_bats); //TODO a voir si l'on ne met pas dans la fonction
+		distance = Calcul_dist(lat_cata,long_cata,lat_bats,long_bats);
+		Maj_tab(t_dist[], t_nom[], nom_bat, distance);
 		//Remplissage & Publication
 		for(int i(0); i < t_nom.length(); ++i){
 			dist_bateau.data[i] = t_dist[i]; //peut etre faire a la main car ROS n accepte pas ca
