@@ -115,7 +115,7 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
 
 	//Publisher & declaration message
-	ros::Publisher chat_lat = n.advertise<std_msgs::UInt32MultiArray>("Lat_Long_Bat", 1000);
+	ros::Publisher chat_lat = n.advertise<std_msgs::Flo64MultiArray>("Lat_Long_Bat", 1000);
 	std_msgs::Float64MultiArray mes_latlong;
 
 	//Subscriber
@@ -152,7 +152,7 @@ int main(int argc, char **argv)
 	temp_s = ais_binary.substr(50,10);
 	int ais_speed_over_ground = bin_to_int(temp_s)/10;
 
-	string  = ais_binary.substr(60,1);
+	string ais_position_accuracy  = ais_binary.substr(60,1);
 
 	char west = ais_binary[61];
 	temp_s = ais_binary.substr(61,28);
