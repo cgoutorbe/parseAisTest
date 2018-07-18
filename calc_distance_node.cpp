@@ -41,11 +41,12 @@ double Calcul_dist(double lat_A,double long_A,double lat_B,double long_B){
 }
 
 void Maj_tab(double t_dist[], string t_nom[], string nom_B, double distance){
-	for(int i(0); i < t_dist; i++){
-		if(nom_B = t_nom[i]){t_dist[i] = distance} //Maj de la distance avec nouvelles coordonnees
+	for(int i(0); i < t_dist.length(); i++){
+		if(nom_B = t_nom[i]) {t_dist[i] = distance;} //Maj de la distance avec nouvelles coordonnees
 		else if(t_nom[i] = "NOM#"){
 			t_nom[i] = nom_B;
-			t_dist[i] = distance;}
+			t_dist[i] = distance;
+		}
 		else
 			continue;
 	}
@@ -58,8 +59,8 @@ int main(int argc, char **argv){
 //Init variable
 	double distance;
 	string t_nom_bats[100];
-	float t_dist[100];
-	for(int i(0); i<t_nom; ++i){
+	double t_dist[100];
+	for(int i(0); i<t_nom_bats.length(); ++i){
 		t_dist[i] = pow(10,100);
 		t_nom_bats = "NOM#";
 	}
@@ -71,7 +72,7 @@ int main(int argc, char **argv){
 	ros::Publisher chat_dist = n.advertise<std_msgs::Float64MultiArray>("Dist_bats", 1000);
 	//ros::Publisher chat_dist = n.advertise<std_msgs::Float64MultiArray>("Dist", 1000);
 //Creation message
-	std_msgs::Float64Float64MultiArray dist_bateau;
+	std_msgs::Float64MultiArray dist_bateau;
 //Subscriber
 	ros::Subscriber sub_nom_cata = n.subscribe("ID", 1000, ChatBack_Nom_Bat);
 	ros::Subscriber sub_coor_cata = n.subscribe("Lat_Long_Cata", 1000, ChatBack_Coor_Cata);
@@ -84,7 +85,7 @@ int main(int argc, char **argv){
 		//mise a jour de des tables
 		Maj_tab(t_dist, t_nom_bats, nom_bat, distance);
 		//Remplissage & Publication
-		for(int i(0); i < t_nom_bats; ++i){
+		for(int i(0); i < t_nom_bats.length(); ++i){
 			if (t_nom_bats[i] != "NOM#"){
 				dist_bateau.data[i] = t_dist[i];//peut etre faire a la main car ROS n accepte pas ca
 			}
