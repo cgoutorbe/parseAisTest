@@ -41,9 +41,9 @@ double Calcul_dist(double lat_A,double long_A,double lat_B,double long_B){
 }
 
 void Maj_tab(double t_dist[], string t_nom[], string nom_B, double distance){
-	for(int i(0); i < t_dist.length(); i++){
-		if(nom_B = t_nom[i]) {t_dist[i] = distance;} //Maj de la distance avec nouvelles coordonnees
-		else if(t_nom[i] = "NOM#"){
+	for(int i(0); i < 100; i++){
+		if(nom_B == t_nom[i]) {t_dist[i] = distance;} //Maj de la distance avec nouvelles coordonnees
+		else if(t_nom[i] == "NOM#"){
 			t_nom[i] = nom_B;
 			t_dist[i] = distance;
 		}
@@ -60,9 +60,9 @@ int main(int argc, char **argv){
 	double distance;
 	string t_nom_bats[100];
 	double t_dist[100];
-	for(int i(0); i<t_nom_bats.length(); ++i){
+	for(int i(0); i< 100; ++i){
 		t_dist[i] = pow(10,100);
-		t_nom_bats = "NOM#";
+		t_nom_bats[i] = "NOM#";
 	}
 //Initialisation ROS
 	ros::init(argc, argv, "calc_distance_node");
@@ -85,7 +85,7 @@ int main(int argc, char **argv){
 		//mise a jour de des tables
 		Maj_tab(t_dist, t_nom_bats, nom_bat, distance);
 		//Remplissage & Publication
-		for(int i(0); i < t_nom_bats.length(); ++i){
+		for(int i(0); i < 100; ++i){
 			if (t_nom_bats[i] != "NOM#"){
 				dist_bateau.data[i] = t_dist[i];//peut etre faire a la main car ROS n accepte pas ca
 			}
