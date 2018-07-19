@@ -12,6 +12,7 @@
 #include "std_msgs/UInt32MultiArray.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
+#include "msg/Ais.h" //type message to send Ais infos
 using namespace std;
 //using namespace ros;
 //-----------------------------------------------------------------------------------------------
