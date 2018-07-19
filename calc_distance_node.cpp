@@ -42,8 +42,7 @@ double Calcul_dist(double lat_A,double long_A,double lat_B,double long_B){
 
 void Maj_tab(double t_dist[], string t_nom[], string nom_B, double distance){
 	for(int i(0); i < 100; i++){
-		if(nom_B == t_nom[i]) `
-			{t_dist[i] = distance;} //Maj de la distance avec nouvelles coordonnees
+		if(nom_B == t_nom[i]) {t_dist[i] = distance;} //Maj de la distance avec nouvelles coordonnees
 		else if(t_nom[i] == "NOM#"){
 			t_nom[i] = nom_B;
 			t_dist[i] = distance;
@@ -61,7 +60,7 @@ int main(int argc, char **argv){
 	double distance;
 	string t_nom_bats[100];
 	double t_dist[100];
-	//init tableau
+	//initialisation of table
 	for(int i(0); i < 100; i++){
 		t_dist[i] = 100000;
 		t_nom_bats[i] = "NOM#";
@@ -89,8 +88,9 @@ int main(int argc, char **argv){
 		//Remplissage & Publication
 		for(int i(0); i < 100 ; i++){
 			if (t_nom_bats[i] != "NOM#"){
-				dist_bateau.data[i] = t_dist[i];//peut etre faire a la main car ROS n accepte pas ca
-			}
+				dist_bateau.data.push_back(t_dist[i]);//peut etre faire a la main car ROS n accepte pas ca
+			}else
+				dist_bateau.data.push_back(0);
 		}
 		chat_dist.publish(dist_bateau);
 		ros::spinOnce();
