@@ -7,3 +7,5 @@ check.o: check.h check.cpp
 	g++ -c check.cpp -o check.o
 thread: thread.cpp
 	g++ thread.cpp -o thread
+recoThread: recoThread.cpp
+	g++ recoThread.cpp -o fina -std=c++0x
