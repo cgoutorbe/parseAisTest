@@ -5,3 +5,7 @@ parsePoint
 parsePoint.o
 check.o
 thread
+fina
+script.sh
+threadFails
+
