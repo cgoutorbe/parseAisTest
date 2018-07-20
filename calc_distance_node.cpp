@@ -7,7 +7,7 @@
 #include "std_msgs/Float64.h"
 #include "gps_common/GPSFix.h"//GPS data
 #include <cmath>
-#include "msg/Ais.h" //type message to send Ais infos
+#include "pk_msg/msg/Ais.h" //type message to send Ais infos
 
 
 using namespace std;
