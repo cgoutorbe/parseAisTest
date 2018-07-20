@@ -11,7 +11,6 @@
 #include <signal.h>
 #include <string.h>
 
-
 int create_socket(){
 
 	//creer une socket permettant de communiquer avec l'antenne au port
@@ -20,7 +19,7 @@ int create_socket(){
 	int port = 10110;
 	struct hostent *hote;
 	struct sockaddr_in adr; //definition du socket
-
+	int  a, b, s_len = sizeof(adr);
 	if ( (sock= socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0 ) //AF_INET for IPv4 
 	{
 		perror("client socket");
@@ -29,13 +28,14 @@ int create_socket(){
 	adr.sin_family=AF_INET;
 	adr.sin_port=htons(port);
 
-
+/*
 	if (connect(sock, (struct sockaddr *)&adr, sizeof(adr))==-1)
 	{
 		//connect to the socket
 		perror("connect");
 		exit(1);
-	}
+	}*/
+
 	char c;
 	/*
 	do
@@ -62,9 +62,33 @@ int fetchUDP(){
 }
 
 int main(){
+	
+	char  buffer[200];
+	int sock = create_socket();
+	int val;
+	while(1){
+//		val = recv(sock, buffer,sizeof(char)*200,0);
+		if (recvfrom(sock, buffer, 200, 0, (struct sockaddr *) &adr, &s_len) == -1)
+		{
+			printf("%s",buffer);
 
-	create_socket();
+		}
+		/*
+		if(val !=0){
+			printf("%s\n",buffer);
+			std::cout << buffer << std::endl;
+			printf("=================> %d",val);
+			std::cout << val << std::endl;
+			val = 0;
+			std::cout << "something" << std::endl;
 
+		}
+		else{
+			printf("aucun message reçu\n");
+
+		}*/
+
+	}
 
 
 	return 0;
