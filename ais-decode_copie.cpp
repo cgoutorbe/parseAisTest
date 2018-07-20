@@ -15,6 +15,7 @@
 #include "pk_msg/msg/Ais.h" //type message to send Ais infos
 using namespace std;
 //using namespace ros;
+
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------FONCTIONS---------------------------------------------
 string id = "";
