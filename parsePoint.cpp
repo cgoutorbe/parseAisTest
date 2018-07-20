@@ -3,6 +3,7 @@
 #include <string>
 #include "NMEA.h"
 #include "check.h"
+#include "parsePoint.h"
 
 using namespace std;
 

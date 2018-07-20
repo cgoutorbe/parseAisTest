@@ -14,7 +14,7 @@
 #include <mutex>
 #include <time.h>
 #include <fcntl.h>
-
+#include "recoThread.h"
 int connect_socket(int sock,struct sockaddr_in* adr, int size) {
 
 //	shutdown(sock,2); //on ferme d'abord la socket
@@ -85,9 +85,8 @@ int use_buffer(char* buffer){
 	//sends strings to parser 
 	return 0;
 }
-int already_reieved
 
-int main(){
+int reception_loop(){
 	
 	struct sockaddr_in adr;
 	//int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP );
