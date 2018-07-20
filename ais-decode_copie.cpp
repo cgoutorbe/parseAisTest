@@ -12,7 +12,7 @@
 #include "std_msgs/UInt32MultiArray.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
-#include "pk_msg/Ais.h" //type message to send Ais infos
+//#include "pk_msg/Ais.h" //type message to send Ais infos
 
 using namespace std;
 //using namespace ros;
@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 		y = (x+1) * 6-5;
 		ais_binary.append(six_bit_table[z]);
 	}
-	if (ais_binary > 137){
+	if (ais_binary.length() > 137){
 		//Decode: conversion binary to number (=> code ASCII)
 		string temp_s = ais_binary.substr(0,6);
 		int ais_message_type = bin_to_int(temp_s);
