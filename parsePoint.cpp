@@ -78,7 +78,7 @@ char* create_vector(char* vector, char *p){
 	return champ_suivant(p); //decale du FillBit on a le checksum direct
 	}
 
-int main(){
+int parser(char *pointeur){ //rename into main to test
 		string trameN = "!AIVDM,2,1,3,B,55P5TL01VIaAL@7WKO@mBplU@<PDhh000000001S;AJ::4A80?4i@E53,7*3E";
 		string trameN2 = "!AIVDM,1,1,,A,15N;<J0P00Jro1<H>bAP0?vL00Rb,0*1B";
 
@@ -89,7 +89,7 @@ int main(){
 		 * 							*
 		 ********************************************************/
 
-		char *pointeur = &trameN[0];
+		//char *pointeur = &trameN[0];  UNCOMMENT TO TEST AS MAIN
 		char *pCheck;
 		NMEA trameStruct;
 		char* pTrame =(char*) &trameStruct;	

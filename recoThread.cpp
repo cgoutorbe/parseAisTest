@@ -59,6 +59,7 @@ int receive_NMEA(int sock, char* buffer){
 
 	return 0;
 }
+
 int is_disconnected(int sock){
 	char temp;
 	//test whether the socket is connected or not 
@@ -79,12 +80,14 @@ int use_buffer(char* buffer){
 	
 	
 	std::cout << buffer << std::endl;
+
 	//memset((void*) buffer,'\0',1000);//set buffer back to empty
-	
+	//sends strings to parser 
 	return 0;
 }
+int already_reieved
 
-int main (){
+int main(){
 	
 	struct sockaddr_in adr;
 	//int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP );
