@@ -7,9 +7,8 @@ public:
   Message(); // Constructeur
   void Show() const; // Affichage
   //setter global
-  void setAll(std::string id, int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, std::string pos_accuracy, double longitude, double latitude, int course, int heading);
+  void setAll(int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, std::string pos_accuracy, double longitude, double latitude, int course, int heading);
   //setter
-  void setId(std::string id);
   void setType(int type);
   void setRepeat_indic(int repeat_indic);
   void setMmsi(int mmsi);
@@ -22,7 +21,6 @@ public:
   void setCourse(int course);
   void setHeading(int heading);
   //getter
-  std::string getId() const;
   int getType() const;
   int getRepeat_indic() const;
   int getMmsi() const;
@@ -36,7 +34,6 @@ public:
   int getHeading() const;
 
 private:
-  std::string m_id;
   int m_type;
   int m_repeat_indic;
   int m_mmsi;

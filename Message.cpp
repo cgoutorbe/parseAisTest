@@ -6,8 +6,8 @@
 
 using namespace std;
 
-Message::Message():m_id("NOM#"), m_type(0), m_repeat_indic(0), m_mmsi(0), m_navig_statu(0),
-m_rate_of_turn(0), m_speed(0), m_pos_accuracy(0), m_longitude(0), m_latitude(0), m_course(0), m_heading(0)
+Message::Message(): m_type(0), m_repeat_indic(0), m_mmsi(0), m_navig_statu(0),
+m_rate_of_turn(0), m_speed(0), m_pos_accuracy(""), m_longitude(0), m_latitude(0), m_course(0), m_heading(0)
 {
 }
 
@@ -26,8 +26,7 @@ void Message::Show() const
 	cout<<"\ntrue heading = \t\t"<< m_heading;
 }
 
-void Message::setAll(string id, int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, string pos_accuracy, double longitude, double latitude, int course, int heading){
-  m_id = id;
+void Message::setAll(int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, string pos_accuracy, double longitude, double latitude, int course, int heading){
   m_type = type;
   m_repeat_indic = repeat_indic;
   m_mmsi = mmsi;
@@ -41,7 +40,6 @@ void Message::setAll(string id, int type, int repeat_indic, int mmsi, int navig_
   m_heading = heading;
 }
 //setter
-void Message::setId(string id){ m_id = id; }
 void Message::setType(int type){ m_type = type; }
 void Message::setRepeat_indic(int repeat_indic){ m_repeat_indic = repeat_indic; }
 void Message::setMmsi(int mmsi){ m_mmsi = mmsi; }
@@ -54,7 +52,6 @@ void Message::setLatitude(double latitude){ m_latitude = latitude; }
 void Message::setCourse(int course){ m_course = course; }
 void Message::setHeading(int heading){ m_heading = heading; }
 //getter
-string Message::getId() const { return m_id; }
 int Message::getType() const { return m_type; }
 int Message::getRepeat_indic() const { return m_repeat_indic; }
 int Message::getMmsi() const { return m_mmsi; }

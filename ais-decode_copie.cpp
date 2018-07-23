@@ -30,10 +30,6 @@ int bin_to_int(string temp_s)
 	return i;
 }
 
-void ChatBack_ID(const std_msgs::String::ConstPtr& msg){
-	id = msg->data;
-}
-
 void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
 	data_payload = msg->data;
 }
@@ -117,11 +113,10 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
 
 	//Publisher & declaration message
-	ros::Publisher chat_lat = n.advertise<std_msgs::Float64MultiArray>("Lat_Long_Bat", 1000);
-	std_msgs::Float64MultiArray mes_latlong;
+	ros::Publisher chat_ais = n.advertise<pk_msg::Ais>("Ais_infos", 1000);
+	pk_msg mes_ais;
 
 	//Subscriber
-	ros::Subscriber sub_id_cata = n.subscribe("ID", 1000, ChatBack_ID);
 	ros::Subscriber sub_data_payload = n.subscribe("Data_payload", 1000, ChatBack_data_payload);
 
 	ros::Rate loop_rate(20);
@@ -135,7 +130,7 @@ int main(int argc, char **argv)
 		y = (x+1) * 6-5;
 		ais_binary.append(six_bit_table[z]);
 	}
-	if (ais_binary > 137){
+	if (ais_binary.length() > 137){
 		//Decode: conversion binary to number (=> code ASCII)
 		string temp_s = ais_binary.substr(0,6);
 		int ais_message_type = bin_to_int(temp_s);
@@ -181,12 +176,21 @@ int main(int argc, char **argv)
 
 		//Fill a message objet to keep it somewhere
 		Message message;
-		message.setAll( id, ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
-		mes_latlong.data[0] = message.getLatitude();
-		mes_latlong.data[1] = message.getLongitude();
+		message.setAll(ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
+		mes_ais.type = message.getType();
+		mes_ais.repeat_indic = message.getRepeat_indic();
+		mes_ais.mmsi = message.getMmsi();
+		mes_ais.status = message.getNavig_statu();
+		mes_ais.rate_of_turn = message.getRate_of_turn();
+		mes_ais.speed_over_groud = message.getSpeed();
+		mes_ais.position_accuracy = message.getPos_accuracy();
+		mes_ais.longitude = message.getLongitude();
+		mes_ais.latitude = message.getLatitude();
+		mes_ais.course_over_ground = message.getCourse();
+		mes_ais.heading = message.getHeading();
 
 		//Send the message
-		chat_lat.publish(mes_latlong);
+		chat_ais.publish(mes_ais);
 	}
 
 	ros::spinOnce();

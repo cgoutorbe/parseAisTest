@@ -6,18 +6,19 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
 #include "gps_common/GPSFix.h"//GPS data
+#include "Message.h"
 #include <cmath>
 #include "pk_msg/Ais.h" //type message to send Ais infos
-
+#include "pk_msg/AisMultyArray.h"
 using namespace std;
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------FONCTIONS---------------------------------------------
 
-string nom_bat = "";
+
 double lat_bats = 0;
 double long_bats = 0;
-double lat_cata = 0;
-double long_cata = 0;
+pk_msg::Ais ais_sub;
+
 
 //TODO Verifier avec Charlie les type de donnees envoyées
 
@@ -25,14 +26,18 @@ void ChatBack_Coor_Cata(const gps_common::GPSFix::ConstPtr& msg){
 	lat_cata = msg->latitude;
 	long_cata = msg->longitude;
 }
-
-void ChatBack_Nom_Bat(const std_msgs::String::ConstPtr& msg){
-	nom_bat = msg->data;
-}
-
-void ChatBack_Coor_Bats(const std_msgs::Float64MultiArray::ConstPtr& msg){
-	lat_bats = msg->data[0];
-	long_bats = msg->data[1];
+void ChatBack_Ais(const pk_msg::Ais::ConstPtr& msg){
+	//ais_sub.header = msg->header
+	ais_sub.type = msg->type;
+	ais_sub.mmsi = msg->mmsi;
+	ais_sub.status = msg->status;
+	ais_sub.rate_of_turn = msg->rate_of_turn;
+	ais_sub.speed_over_ground = msg->speed_over_ground;
+	ais_sub.position_accuracy = msg->position_accuracy;
+	ais_sub.longitude = msg->longitude;
+	ais_sub.latitude = msg->latitude;
+	ais_sub.course_over_ground = msg->course_over_ground;
+	ais_sub.heading = msg->heading;
 }
 
 double Calcul_dist(double lat_A,double long_A,double lat_B,double long_B){
@@ -41,15 +46,14 @@ double Calcul_dist(double lat_A,double long_A,double lat_B,double long_B){
 	return D;
 }
 
-void Maj_tab(double t_dist[], string t_nom[], string nom_B, double distance){
-	for(int i(0); i < 100; i++){
-		if(nom_B == t_nom[i]) {t_dist[i] = distance;} //Maj de la distance avec nouvelles coordonnees
-		else if(t_nom[i] == "NOM#"){
-			t_nom[i] = nom_B;
-			t_dist[i] = distance;
+void Maj_tab(Ais tab_ais[], Ais ais_sub, double distance){
+	for(int i(0); i < tab_ais.length(); i++){
+		if(ais_sub.mmsi == tab_ais[i].mmsi) {t_dist[i].distance = distance;} //Maj de la distance avec nouvelles coordonnees
+		else if(tab_ais[i] == 0){
+			tab_ais[i] = ais_sub;
+			tab_ais[i].distance = distance;
 		}
-		else
-			continue;
+		else {continue;}
 	}
 
 }//TODO faire la fonction qui regarde si le nom existe si oui il corrige si non il cree une autre ligne et ajoute la dsitance
@@ -59,41 +63,38 @@ void Maj_tab(double t_dist[], string t_nom[], string nom_B, double distance){
 int main(int argc, char **argv){
 //Init variable
 	double distance;
-	string t_nom_bats[100];
-	double t_dist[100];
-	//initialisation of table
-	for(int i(0); i < 100; i++){
-		t_dist[i] = 100000;
-		t_nom_bats[i] = "NOM#";
-	}
+	pk_msg::Ais tab_ais[100];
+	pk_msg::Ais ais_null;
+
+//Init Table of Ais Message
+for(int i(0); i < 100 ; i++){
+	tab_ais[i]= ais_null;
+}
 //Initialisation ROS
 	ros::init(argc, argv, "calc_distance_node");
 	ros::NodeHandle n;
-//Publisher
-	//ros::Publisher chat_tram = n.advertise<std_msgs::UInt32MultiArray>("Nom_bats", 1000);
-	ros::Publisher chat_dist = n.advertise<std_msgs::Float64MultiArray>("Dist_bats", 1000);
-	//ros::Publisher chat_dist = n.advertise<std_msgs::Float64MultiArray>("Dist", 1000);
-//Creation message
-	std_msgs::Float64MultiArray dist_bateau;
-//Subscriber
-	ros::Subscriber sub_nom_cata = n.subscribe("ID", 1000, ChatBack_Nom_Bat);
-	ros::Subscriber sub_coor_cata = n.subscribe("Lat_Long_Cata", 1000, ChatBack_Coor_Cata);
-	ros::Subscriber sub_coor_bats = n.subscribe("Lat_Long_Bat", 1000, ChatBack_Coor_Bats);
-
 	ros::Rate loop_rate(20);
+//Publisher
+	ros::Publisher chat_dist = n.advertise<pk_msg::AisMultyArray>("Ais_tab", 1000);
+//Creation message
+	pk_msg::AisMultiArray Ais_Bateau;
+//Subscriber
+	ros::Subscriber sub_coor_cata = n.subscribe("Ais_infos", 1000, ChatBack_Ais);
+	ros::Subscriber sub_coor_bats = n.subscribe("Lat_Long_cata", 1000, ChatBack_Coor_Cata); //TODO changer le nom du message GPS 
+
 	while(ros::ok()){
 		//Calcul de distance
-		distance = Calcul_dist(lat_cata,long_cata,lat_bats,long_bats);
-		//mise a jour de des tables
-		Maj_tab(t_dist, t_nom_bats, nom_bat, distance);
-		//Remplissage & Publication
+		distance = Calcul_dist(lat_cata, long_cata, ais_sub.latitude, ais_sub.longitude);
+		//mise a jour des tables
+		Maj_tab(tab_ais, ais_sub, distance);
+		//Remplissage du message & Publication
 		for(int i(0); i < 100 ; i++){
-			if (t_nom_bats[i] != "NOM#"){
-				dist_bateau.data.push_back(t_dist[i]);//peut etre faire a la main car ROS n accepte pas ca
+			if (tab_ais[i].mmsi != 0){
+				Ais_bateau.data.push_back(tab_ais[i]); //peut etre faire a la main car ROS n accepte pas ca
 			}else
-				dist_bateau.data.push_back(0);
+				Ais_Bateau.data.push_back(ais_null);
 		}
-		chat_dist.publish(dist_bateau);
+		chat_dist.publish(Ais_Bateau);
 		ros::spinOnce();
 		loop_rate.sleep();
 		}
