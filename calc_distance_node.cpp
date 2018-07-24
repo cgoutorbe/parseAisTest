@@ -6,7 +6,6 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
 #include "gps_common/GPSFix.h"//GPS data
-#include "Message.h"
 #include <cmath>
 #include "pk_msg/Ais.h" //type message to send Ais infos
 #include "pk_msg/AisMultiArray.h"
@@ -15,8 +14,8 @@ using namespace std;
 //-----------------------------------------FONCTIONS---------------------------------------------
 
 
-double lat_bats = 0;
-double long_bats = 0;
+double lat_cata = 0;
+double long_cata = 0;
 pk_msg::Ais ais_sub;
 
 

@@ -105,7 +105,6 @@ int main(int argc, char **argv)
 	six_bit_table[117]="111101";
 	six_bit_table[118]="111110";
 	six_bit_table[119]="111111";
-
 	unsigned int x,st=0,fn=0;
 	//Initialisation ROS
 	ros::init(argc, argv, "ais_decodeur_node");
@@ -176,17 +175,31 @@ int main(int argc, char **argv)
 		//Fill a message objet to keep it somewhere
 		Message message;
 		message.setAll(ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
-		mes_ais.type = message.getType();
+		//Fill the message
+
+		/*mes_ais.type = message.getType();
 		mes_ais.repeat_indic = message.getRepeat_indic();
 		mes_ais.mmsi = message.getMmsi();
 		mes_ais.status = message.getNavig_statu();
 		mes_ais.rate_of_turn = message.getRate_of_turn();
-		mes_ais.speed_over_groud = message.getSpeed();
+		mes_ais.speed_over_ground = message.getSpeed();
 		mes_ais.position_accuracy = message.getPos_accuracy();
 		mes_ais.longitude = message.getLongitude();
 		mes_ais.latitude = message.getLatitude();
 		mes_ais.course_over_ground = message.getCourse();
-		mes_ais.heading = message.getHeading();
+		mes_ais.heading = message.getHeading();*/
+
+		mes_ais.type = ais_message_type;
+		mes_ais.repeat_indic = ais_repeat_indicator;
+		mes_ais.mmsi = ais_mmsi;
+		mes_ais.status = ais_navigation_status;
+		mes_ais.rate_of_turn = ais_rate_of_turn;
+		mes_ais.speed_over_ground = ais_speed_over_ground;
+		mes_ais.position_accuracy = ais_position_accuracy;
+		mes_ais.longitude = ais_longitude;
+		mes_ais.latitude = ais_latitude;
+		mes_ais.course_over_ground = ais_course_over_ground;
+		mes_ais.heading = ais_true_heading;
 
 		//Send the message
 		chat_ais.publish(mes_ais);
