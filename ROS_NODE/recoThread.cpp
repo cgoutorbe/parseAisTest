@@ -15,9 +15,12 @@
 #include <time.h>
 #include <fcntl.h>
 #include "recoThread.h"
+
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+
 int connect_socket(int sock,struct sockaddr_in* adr, int size) {
 
-//	shutdown(sock,2); //on ferme d'abord la socket
 
 	std::cout << "CONNECTION DU SOCKET\n\n"<< std::endl;
 
@@ -48,7 +51,7 @@ int receive_NMEA(int sock, char* buffer){
 	while(elapsed <= 5){ //while 5 seconds 
 		
 		b = recv(sock,(void*) buffer,1000,MSG_DONTWAIT);
-		if(b != 0 && b != -1){printf("%s",buffer);}		
+		if(b != 0 && b != -1){publish_buffer(buffer);}// calls		
 		
 		end = time(NULL);
 		elapsed = difftime(end,start);;
@@ -76,20 +79,23 @@ int is_disconnected(int sock){
 
 }
 
-int use_buffer(char* buffer){
+int publish_buffer(char* buffer){
 	
-	
-	std::cout << buffer << std::endl;
+
+	NMEA.publish(buffer);
+	//std::cout << buffer << std::endl;
 
 	//memset((void*) buffer,'\0',1000);//set buffer back to empty
+
 	//sends strings to parser 
 	return 0;
 }
 
-int reception_loop(){
+int main(){
+	
+	//init variables
 	
 	struct sockaddr_in adr;
-	//int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP );
 	char buffer[1000];
 	char *p = &buffer[0];
 	struct sockaddr_in* pAdr = &adr;
@@ -97,11 +103,14 @@ int reception_loop(){
 	adr_init(&adr); 
 	int size = sizeof(adr);
 
-	//sock = connect_socket(sock,pAdr,size);
+	ros::init(argc,argv, "get_nmea_strings");
+	ros::NodeHandle n;
+	
+	ros::Publisher NMEA = n.advertise<std_msgs::String>("NMEA:",1000);
+	ros::Rate loop_rate(20); //TODO find the right frequency
 
-	//test if socket is still connected
-	// if not reconnect then 
-	while(1){
+	while(ros::ok()){
+		
 		
 		int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP );
 		sock = connect_socket(sock,pAdr,size);
@@ -110,6 +119,10 @@ int reception_loop(){
 		rec.join();
 		std::thread use (use_buffer,p);
 		use.join();
+
+		ros::spinOnce();
+		loop_rate.sleep();
+
 		
 	}
 

@@ -10,4 +10,5 @@ script.sh
 threadFails
 .DS_Store
 recoThread.o
+*.swp
 

@@ -4,8 +4,11 @@
 #include "NMEA.h"
 #include "check.h"
 #include "parsePoint.h"
+#include "ros/ros.h"
+#include "std_msgs/String.h"
 
 using namespace std;
+char *pointeur;
 
 char* champ_suivant(char* p){
 	
@@ -78,19 +81,39 @@ char* create_vector(char* vector, char *p){
 	p = champ_suivant(p); //decale de dataPayload
 	return champ_suivant(p); //decale du FillBit on a le checksum direct
 	}
+void chat_back(const std_msgs::String::ConstPtr& msg,const std_msgs::String& data_msg){
+	
+	// init of pointer to the newly received buffer 	
+	unsigned char checksum;
+	unsigned char* pchecksum = &checksum;
+	pointeur = &msg
+	char* pCheck;
+	NMEA trameStruct;
+	char* pTrame = (char*) &trameStruct;
+	pCheck = create_vector(pTrame,msg);
+	if( check_nmea_checksum(pCheck,msg)){
+		//data_msg = trameStruct.dataPayload;
+		data_msg.data = std::string(trameStruct.dataPayload);
+		//memcpy(data_msg,(char*) trameStruct.dataPayload,83*sizeof(char));
+	}
+	else{
+		//erreur de checksum on remet le msg a 0 
+		memset(data_msg,'0',83);
 
-int parser(char *pointeur){ //rename into main to test
-		string trameN = "!AIVDM,2,1,3,B,55P5TL01VIaAL@7WKO@mBplU@<PDhh000000001S;AJ::4A80?4i@E53,7*3E";
-		string trameN2 = "!AIVDM,1,1,,A,15N;<J0P00Jro1<H>bAP0?vL00Rb,0*1B";
+	}
+}
 
-		string trameN1 = "!AIVDM,1,1,,A,19NWoq000Wrt<RJHEuuqiWlN061d,0*5F";
-		/********************************************************
-		 * 							*
-		 * 		DEROULEMENT DU PROGRAMME 		*
-		 * 							*
-		 ********************************************************/
+int main(char *pointeur){ //rename into main to test
 
-		//char *pointeur = &trameN[0];  UNCOMMENT TO TEST AS MAIN
+		string trame;
+		std_msgs::String msg;
+
+		ros::init(argc,argv,"ais_parser_node");
+		ros::Nodehandle n;
+	
+		ros::Subscriber trameNMEA = n.subscribe("NMEA",1000,chat_back((void*) &msg);
+		ros::Publisher Data = n.advertise<std_msgs::String>("DataPayload", 83);
+		
 		char *pCheck;
 		NMEA trameStruct;
 		char* pTrame =(char*) &trameStruct;	
@@ -107,10 +130,18 @@ int parser(char *pointeur){ //rename into main to test
 		unsigned char checksum;
 		unsigned char* pchecksum = &checksum;
 
-		//printf(" avant -> %c",checksum);
-	        //nmea_checksum(pchecksum,pointeur);
-		//printf(" apres-> %c",checksum);
 		cout << check_nmea_checksum(pCheck,pointeur) << endl;
+
+		ros::Rate loop_rate(20);
+		while(ros::ok()){
+			
+		//	msg = trameStruct.dataPayload;
+			Data.publish(msg);
+
+			ros::spinOnce();
+			loop_rate.sleep();
+
+		}
 
 
 
