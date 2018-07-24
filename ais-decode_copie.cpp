@@ -13,6 +13,7 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
 #include "pk_msg/Ais.h" //type message to send Ais infos
+#include "pk_msg/AisMultiArray.h"
 using namespace std;
 //using namespace ros;
 //-----------------------------------------------------------------------------------------------
@@ -113,96 +114,88 @@ int main(int argc, char **argv)
 	//Publisher & declaration message
 	ros::Publisher chat_ais = n.advertise<pk_msg::Ais>("Ais_infos", 1000);
 	pk_msg::Ais mes_ais;
+	pk_msg::AisMultiArray Tab_Ais;
 
 	//Subscriber
 	ros::Subscriber sub_data_payload = n.subscribe("Data_Payload", 1000, ChatBack_data_payload);
 
 	ros::Rate loop_rate(20);
 	while(ros::ok()){
+//Parsing Data Payload Message
+		while(getline(data_payload, ais_string))
 	// convert 6 bit string to binary
-	string ais_string = data_payload;
-	string ais_binary = "";
-	for (x=0; x<ais_string.length(); x++){
-		int z,y;
-		z = ais_string[x];
-		y = (x+1) * 6-5;
-		ais_binary.append(six_bit_table[z]);
-	}
-	if (ais_binary.length() > 137){
-		//Decode: conversion binary to number (=> code ASCII)
-		string temp_s = ais_binary.substr(0,6);
-		int ais_message_type = bin_to_int(temp_s);
+			string ais_binary = "";
+			for (x=0; x<ais_string.length(); x++){
+				int z,y;
+				z = ais_string[x];
+				y = (x+1) * 6-5;
+				ais_binary.append(six_bit_table[z]);
+			}
+			if (ais_binary.length() > 137){
+	//Decode: conversion binary to number (=> code ASCII)
+			string temp_s = ais_binary.substr(0,6);
+			int ais_message_type = bin_to_int(temp_s);
 
-		temp_s = ais_binary.substr(6,2);
-		int ais_repeat_indicator = bin_to_int(temp_s);
+			temp_s = ais_binary.substr(6,2);
+			int ais_repeat_indicator = bin_to_int(temp_s);
 
-		temp_s = ais_binary.substr(8,30);
-		int ais_mmsi = bin_to_int(temp_s);
+			temp_s = ais_binary.substr(8,30);
+			int ais_mmsi = bin_to_int(temp_s);
 
-		temp_s = ais_binary.substr(38,4);
-		int ais_navigation_status = bin_to_int(temp_s);
+			temp_s = ais_binary.substr(38,4);
+			int ais_navigation_status = bin_to_int(temp_s);
 
-		temp_s = ais_binary.substr(42,8);
-		int ais_rate_of_turn = bin_to_int(temp_s);
+			temp_s = ais_binary.substr(42,8);
+			int ais_rate_of_turn = bin_to_int(temp_s);
 
-		temp_s = ais_binary.substr(50,10);
-		int ais_speed_over_ground = bin_to_int(temp_s)/10;
+			temp_s = ais_binary.substr(50,10);
+			int ais_speed_over_ground = bin_to_int(temp_s)/10;
 
-		string ais_position_accuracy  = ais_binary.substr(60,1);
+			string ais_position_accuracy  = ais_binary.substr(60,1);
 
-		char west = ais_binary[61];
-		temp_s = ais_binary.substr(61,28);
-		bitset<28> hh(temp_s);
-		if (west == '1') {hh.flip();}
-		double ais_longitude = hh.to_ulong();;
-		ais_longitude = ais_longitude/10000/60;
-		if (west == '1') {ais_longitude *= -1;}
+			char west = ais_binary[61];
+			temp_s = ais_binary.substr(61,28);
+			bitset<28> hh(temp_s);
+			if (west == '1') {hh.flip();}
+			double ais_longitude = hh.to_ulong();;
+			ais_longitude = ais_longitude/10000/60;
+			if (west == '1') {ais_longitude *= -1;}
 
-		char south = ais_binary[89];
-		temp_s = ais_binary.substr(89,27);
-		bitset<27> ii(temp_s);
-		if (south == '1') {ii.flip();}
-		double ais_latitude = ii.to_ulong();
-		ais_latitude = ais_latitude/10000/60;
-		if (south == '1') {ais_latitude *= -1;}
+			char south = ais_binary[89];
+			temp_s = ais_binary.substr(89,27);
+			bitset<27> ii(temp_s);
+			if (south == '1') {ii.flip();}
+			double ais_latitude = ii.to_ulong();
+			ais_latitude = ais_latitude/10000/60;
+			if (south == '1') {ais_latitude *= -1;}
 
-		temp_s = ais_binary.substr(116,12);
-		int ais_course_over_ground = bin_to_int(temp_s);
+			temp_s = ais_binary.substr(116,12);
+			int ais_course_over_ground = bin_to_int(temp_s);
 
-		temp_s = ais_binary.substr(128,9);
-		int ais_true_heading = bin_to_int(temp_s);
+			temp_s = ais_binary.substr(128,9);
+			int ais_true_heading = bin_to_int(temp_s);
 
-		//Fill a message objet to keep it somewhere
-		Message message;
-		message.setAll(ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
-		//Fill the message
+	//Fill a message objet to keep it somewhere
+			Message message;
+			message.setAll(ais_message_type, ais_repeat_indicator, ais_mmsi, ais_navigation_status, ais_rate_of_turn, ais_speed_over_ground, ais_position_accuracy, ais_longitude, ais_latitude, ais_course_over_ground, ais_true_heading);
+	//Fill the Ais message
+			mes_ais.type = message.getType();
+			mes_ais.repeat_indic = message.getRepeat_indic();
+			mes_ais.mmsi = message.getMmsi();
+			mes_ais.status = message.getNavig_statu();
+			mes_ais.rate_of_turn = message.getRate_of_turn();
+			mes_ais.speed_over_ground = message.getSpeed();
+			mes_ais.position_accuracy = message.getPos_accuracy();
+			mes_ais.longitude = message.getLongitude();
+			mes_ais.latitude = message.getLatitude();
+			mes_ais.course_over_ground = message.getCourse();
+			mes_ais.heading = message.getHeading();
 
-		/*mes_ais.type = message.getType();
-		mes_ais.repeat_indic = message.getRepeat_indic();
-		mes_ais.mmsi = message.getMmsi();
-		mes_ais.status = message.getNavig_statu();
-		mes_ais.rate_of_turn = message.getRate_of_turn();
-		mes_ais.speed_over_ground = message.getSpeed();
-		mes_ais.position_accuracy = message.getPos_accuracy();
-		mes_ais.longitude = message.getLongitude();
-		mes_ais.latitude = message.getLatitude();
-		mes_ais.course_over_ground = message.getCourse();
-		mes_ais.heading = message.getHeading();*/
+	//Fill the message table
+			Tab_Ais.push_back(mes_ais);
 
-		mes_ais.type = ais_message_type;
-		mes_ais.repeat_indic = ais_repeat_indicator;
-		mes_ais.mmsi = ais_mmsi;
-		mes_ais.status = ais_navigation_status;
-		mes_ais.rate_of_turn = ais_rate_of_turn;
-		mes_ais.speed_over_ground = ais_speed_over_ground;
-		mes_ais.position_accuracy = ais_position_accuracy;
-		mes_ais.longitude = ais_longitude;
-		mes_ais.latitude = ais_latitude;
-		mes_ais.course_over_ground = ais_course_over_ground;
-		mes_ais.heading = ais_true_heading;
-
-		//Send the message
-		chat_ais.publish(mes_ais);
+	//Send the table
+		chat_ais.publish(Tab_Ais);
 	}
 
 	ros::spinOnce();
