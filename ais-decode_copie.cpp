@@ -13,7 +13,6 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
 #include "pk_msg/Ais.h" //type message to send Ais infos
-
 using namespace std;
 //using namespace ros;
 //-----------------------------------------------------------------------------------------------
@@ -114,10 +113,10 @@ int main(int argc, char **argv)
 
 	//Publisher & declaration message
 	ros::Publisher chat_ais = n.advertise<pk_msg::Ais>("Ais_infos", 1000);
-	pk_msg mes_ais;
+	pk_msg::Ais mes_ais;
 
 	//Subscriber
-	ros::Subscriber sub_data_payload = n.subscribe("Data_payload", 1000, ChatBack_data_payload);
+	ros::Subscriber sub_data_payload = n.subscribe("Data_Payload", 1000, ChatBack_data_payload);
 
 	ros::Rate loop_rate(20);
 	while(ros::ok()){

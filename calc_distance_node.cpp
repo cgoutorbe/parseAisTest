@@ -9,7 +9,7 @@
 #include "Message.h"
 #include <cmath>
 #include "pk_msg/Ais.h" //type message to send Ais infos
-#include "pk_msg/AisMultyArray.h"
+#include "pk_msg/AisMultiArray.h"
 using namespace std;
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------FONCTIONS---------------------------------------------
@@ -74,13 +74,12 @@ for(int i(0); i < 100 ; i++){
 	ros::init(argc, argv, "calc_distance_node");
 	ros::NodeHandle n;
 	ros::Rate loop_rate(20);
-//Publisher
-	ros::Publisher chat_dist = n.advertise<pk_msg::AisMultyArray>("Ais_tab", 1000);
-//Creation message
-	pk_msg::AisMultiArray Ais_Bateau;
+//Publisher & Creation message
+	ros::Publisher chat_dist = n.advertise<pk_msg::AisMultiArray>("Ais_tab", 1000);
+	pk_msg::AisMultiArray Ais_Table;
 //Subscriber
 	ros::Subscriber sub_coor_cata = n.subscribe("Ais_infos", 1000, ChatBack_Ais);
-	ros::Subscriber sub_coor_bats = n.subscribe("Lat_Long_cata", 1000, ChatBack_Coor_Cata); //TODO changer le nom du message GPS 
+	ros::Subscriber sub_coor_bats = n.subscribe("Lat_Long_cata", 1000, ChatBack_Coor_Cata); //TODO changer le nom du message GPS
 
 	while(ros::ok()){
 		//Calcul de distance
@@ -90,11 +89,11 @@ for(int i(0); i < 100 ; i++){
 		//Remplissage du message & Publication
 		for(int i(0); i < 100 ; i++){
 			if (tab_ais[i].mmsi != 0){
-				Ais_bateau.data.push_back(tab_ais[i]); //peut etre faire a la main car ROS n accepte pas ca
+				Ais_Table.data.push_back(tab_ais[i]); //peut etre faire a la main car ROS n accepte pas ca
 			}else
-				Ais_Bateau.data.push_back(ais_null);
+				Ais_Table.data.push_back(ais_null);
 		}
-		chat_dist.publish(Ais_Bateau);
+		chat_dist.publish(Ais_Table);
 		ros::spinOnce();
 		loop_rate.sleep();
 		}
