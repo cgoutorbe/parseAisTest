@@ -38,6 +38,7 @@ void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
 int main(int argc, char **argv)
 {
 	string ais2;
+	string ais_string;
 
 	// six bit ascii table
 	string six_bit_table[120];
