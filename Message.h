@@ -1,11 +1,15 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <stdio.h>
 
 class Message
 {
 public:
   Message(); // Constructeur
   void Show() const; // Affichage
+  int bin_to_int(std::string temp_s); //Binary to Interger
+  std::vector<std::string> split(std::string str, std::string sep);
   //setter global
   void setAll(int type, int repeat_indic, int mmsi, int navig_statu, int rate_of_turn, int speed, std::string pos_accuracy, double longitude, double latitude, int course, int heading);
   //setter

@@ -1,6 +1,8 @@
 //-----------------------------------------------------------------------------------------------
 //---------------------------------------COMMENTAIRES--------------------------------------------
-// Look at the name of all the subsciber
+// Look at the name of all subscibers
+//
+// I chose to do a classe for the message to be easyer to check errors in the message
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
 #include "iostream"
@@ -14,21 +16,17 @@
 #include "std_msgs/Float64.h"
 #include "pk_msg/Ais.h" //type message to send Ais infos
 #include "pk_msg/AisMultiArray.h"
+#include <vector>
 using namespace std;
 //using namespace ros;
 //-----------------------------------------------------------------------------------------------
-//-----------------------------------------FONCTIONS---------------------------------------------
+//-----------------------------------------Global Value---------------------------------------------
+
 string id = "";
 string data_payload = "";
 
-int bin_to_int(string temp_s)
-{
-	int i=0;
-	for (int x=0; x<temp_s.length(); x++) {
-		i=i + ((temp_s[x]-48) * (1<<(temp_s.length()-x-1)));
-	}
-	return i;
-}
+//-----------------------------------------------------------------------------------------------
+//-----------------------------------------FONCTIONS---------------------------------------------
 
 void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
 	data_payload = msg->data;
@@ -37,8 +35,11 @@ void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
 //-----------------------------------MAIN--------------------------------------------------------
 int main(int argc, char **argv)
 {
+//Varible Declaration
 	string ais2;
 	string ais_string;
+	string ais_binary;
+	unsigned int x,st=0,fn=0;
 
 	// six bit ascii table
 	string six_bit_table[120];
@@ -107,7 +108,7 @@ int main(int argc, char **argv)
 	six_bit_table[117]="111101";
 	six_bit_table[118]="111110";
 	six_bit_table[119]="111111";
-	unsigned int x,st=0,fn=0;
+
 	//Initialisation ROS
 	ros::init(argc, argv, "ais_decodeur_node");
 	ros::NodeHandle n;
@@ -123,9 +124,10 @@ int main(int argc, char **argv)
 	ros::Rate loop_rate(20);
 	while(ros::ok()){
 //Parsing Data Payload Message
-		while(getline(data_payload, ais_string))
+		ais_string = split(data_payload, "\n");
+		for(size_t compt(0); compt< ais_string.size(); compt++){
 	// convert 6 bit string to binary
-			string ais_binary = "";
+			ais_binary = "";
 			for (x=0; x<ais_string.length(); x++){
 				int z,y;
 				z = ais_string[x];
@@ -193,10 +195,12 @@ int main(int argc, char **argv)
 			mes_ais.heading = message.getHeading();
 
 	//Fill the message table
-			Tab_Ais.push_back(mes_ais);
+			Tab_Ais.data.push_back(mes_ais);
+		}
 
 	//Send the table
 		chat_ais.publish(Tab_Ais);
+		Tab_Ais.data.clear();
 	}
 
 	ros::spinOnce();

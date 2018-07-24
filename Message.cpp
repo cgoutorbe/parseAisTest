@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <stdio.h>
+#include <vector>
 #include "Message.h"
 #include "bitset"
 #include "iomanip"
@@ -39,6 +41,29 @@ void Message::setAll(int type, int repeat_indic, int mmsi, int navig_statu, int 
   m_course = course;
   m_heading = heading;
 }
+//Convert a binary to a integer
+int bin_to_int(string temp_s)
+{
+	int i=0;
+	for (int x=0; x<temp_s.length(); x++) {
+		i=i + ((temp_s[x]-48) * (1<<(temp_s.length()-x-1)));
+	}
+	return i;
+}
+
+//Cut a string depending on a separator
+vector<string> split(string str, string sep){
+  char* cstr = const_cast<char*>(str.c_str());
+  char* current;
+  vector<string> arr;
+  current = strok(cstr, sep.c_str());
+  while(current ! = NULL){
+    arr.push_back(current);
+    current = strok(NULL, sep.sep.c_str());
+  }
+  return arr
+}
+
 //setter
 void Message::setType(int type){ m_type = type; }
 void Message::setRepeat_indic(int repeat_indic){ m_repeat_indic = repeat_indic; }
