@@ -27,7 +27,28 @@ string data_payload = "";
 
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------FONCTIONS---------------------------------------------
-
+//Convert a binary to a integer
+int bin_to_int(string temp_s)
+{
+	int i=0;
+	for (int x=0; x<temp_s.length(); x++) {
+		i=i + ((temp_s[x]-48) * (1<<(temp_s.length()-x-1)));
+	}
+	return i;
+}
+//Cut a string depending on a separator
+vector<string> split(string str, string sep){
+  char* cstr = const_cast<char*>(str.c_str());
+  char* current;
+  vector<string> arr;
+  current = strok(cstr, sep.c_str());
+  while(current ! = NULL){
+    arr.push_back(current);
+    current = strok(NULL, sep.sep.c_str());
+  }
+  return arr
+}
+//function which is calling by subsriber
 void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
 	data_payload = msg->data;
 }
@@ -36,8 +57,7 @@ void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
 int main(int argc, char **argv)
 {
 //Varible Declaration
-	string ais2;
-	string ais_string;
+	vector<string> ais_string;
 	string ais_binary;
 	unsigned int x,st=0,fn=0;
 
