@@ -1,0 +1,8 @@
+prefix=/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/install
+
+Name: parseAis
+Description: Description of parseAis
+Version: 0.0.0
+Cflags: -I/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/install/include
+Libs: -L/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/install/lib 
+Requires: 
