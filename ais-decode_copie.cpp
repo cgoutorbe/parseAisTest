@@ -44,7 +44,7 @@ vector<string> split(string str, string sep){
   current = strtok(cstr, sep.c_str());
   while(current != NULL){
     arr.push_back(current);
-    current = strok(NULL, sep.sep.c_str());
+    current = strtok(NULL, sep.c_str());
   }
   return arr;
 }
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
 		for(size_t compt(0); compt< ais_string.size(); compt++){
 	// convert 6 bit string to binary
 			ais_binary = "";
-			for (x=0; x<ais_string.size(); x++){
+			for (x=0; x<ais_string.length(); x++){
 				int z,y;
 				z = ais_string[x];
 				y = (x+1) * 6-5;
