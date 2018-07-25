@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
 
 	//Publisher & declaration message
-	ros::Publisher chat_ais = n.advertise<pk_msg::Ais>("Ais_infos", 1000);
+	ros::Publisher chat_ais = n.advertise<pk_msg::AisMultiArray>("Ais_infos", 1000);
 	pk_msg::Ais mes_ais;
 	pk_msg::AisMultiArray Tab_Ais;
 
@@ -148,9 +148,9 @@ int main(int argc, char **argv)
 		for(size_t compt(0); compt< ais_string.size(); compt++){
 	// convert 6 bit string to binary
 			ais_binary = "";
-			for (x=0; x<ais_string.length(); x++){
+			for (x=0; x<ais_string[compt].length(); x++){
 				int z,y;
-				z = ais_string[x];
+				z = ais_string[compt][x];
 				y = (x+1) * 6-5;
 				ais_binary.append(six_bit_table[z]);
 			}
@@ -217,11 +217,10 @@ int main(int argc, char **argv)
 	//Fill the message table
 			Tab_Ais.data.push_back(mes_ais);
 		}
-
+	}
 	//Send the table
 		chat_ais.publish(Tab_Ais);
 		Tab_Ais.data.clear();
-	}
 
 	ros::spinOnce();
 	loop_rate.sleep();
