@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <stdio.h>
+#include <vector>
 #include "Message.h"
 #include "bitset"
 #include "iomanip"
@@ -39,6 +41,7 @@ void Message::setAll(int type, int repeat_indic, int mmsi, int navig_statu, int 
   m_course = course;
   m_heading = heading;
 }
+
 //setter
 void Message::setType(int type){ m_type = type; }
 void Message::setRepeat_indic(int repeat_indic){ m_repeat_indic = repeat_indic; }
