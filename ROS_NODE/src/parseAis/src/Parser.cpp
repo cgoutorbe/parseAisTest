@@ -107,7 +107,7 @@ int main(int argc,char** argv){ //rename into main to test
 		ros::NodeHandle n;
 	
 		ros::Subscriber trameNMEA = n.subscribe("NMEA",1000,&Parser::chat_back, &parser);
-		ros::Publisher Data = n.advertise<std_msgs::String>("DataPayload", 83);
+		ros::Publisher Data = n.advertise<std_msgs::String>("Data_Payload", 83);
 
 		
 

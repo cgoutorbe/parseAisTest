@@ -255,11 +255,44 @@ _gtest_INCLUDES:FILEPATH=/usr/include/gtest/gtest.h
 //Path to a file.
 _gtest_SOURCES:FILEPATH=/usr/src/gtest/src/gtest.cc
 
+//The directory containing a CMake configuration file for actionlib.
+actionlib_DIR:PATH=/opt/ros/lunar/share/actionlib/cmake
+
+//The directory containing a CMake configuration file for actionlib_msgs.
+actionlib_msgs_DIR:PATH=/opt/ros/lunar/share/actionlib_msgs/cmake
+
+//Value Computed by CMake
+ais_decodeur_BINARY_DIR:STATIC=/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/build/ais_decodeur
+
+//Value Computed by CMake
+ais_decodeur_SOURCE_DIR:STATIC=/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/ais_decodeur
+
 //The directory containing a CMake configuration file for catkin.
 catkin_DIR:PATH=/opt/ros/lunar/share/catkin/cmake
 
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/lunar/share/cpp_common/cmake
+
+//The directory containing a CMake configuration file for gencpp.
+gencpp_DIR:PATH=/opt/ros/lunar/share/gencpp/cmake
+
+//The directory containing a CMake configuration file for geneus.
+geneus_DIR:PATH=/opt/ros/lunar/share/geneus/cmake
+
+//The directory containing a CMake configuration file for genlisp.
+genlisp_DIR:PATH=/opt/ros/lunar/share/genlisp/cmake
+
+//The directory containing a CMake configuration file for genmsg.
+genmsg_DIR:PATH=/opt/ros/lunar/share/genmsg/cmake
+
+//The directory containing a CMake configuration file for gennodejs.
+gennodejs_DIR:PATH=/opt/ros/lunar/share/gennodejs/cmake
+
+//The directory containing a CMake configuration file for genpy.
+genpy_DIR:PATH=/opt/ros/lunar/share/genpy/cmake
+
+//The directory containing a CMake configuration file for geometry_msgs.
+geometry_msgs_DIR:PATH=/opt/ros/lunar/share/geometry_msgs/cmake
 
 //Value Computed by CMake
 gmock_BINARY_DIR:STATIC=/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/build/gtest
@@ -302,7 +335,13 @@ gtest_force_shared_crt:BOOL=OFF
 gtest_main_LIB_DEPENDS:STATIC=general;-lpthread;general;gtest;
 
 //Path to a library.
-lib:FILEPATH=/opt/ros/lunar/lib/libxmlrpcpp.so
+lib:FILEPATH=/opt/ros/lunar/lib/libtf2.so
+
+//The directory containing a CMake configuration file for message_filters.
+message_filters_DIR:PATH=/opt/ros/lunar/share/message_filters/cmake
+
+//The directory containing a CMake configuration file for message_generation.
+message_generation_DIR:PATH=/opt/ros/lunar/share/message_generation/cmake
 
 //The directory containing a CMake configuration file for message_runtime.
 message_runtime_DIR:PATH=/opt/ros/lunar/share/message_runtime/cmake
@@ -312,6 +351,15 @@ parseAis_BINARY_DIR:STATIC=/home/charlie/Documents/SPID/catamaran/parseAisTest/R
 
 //Value Computed by CMake
 parseAis_SOURCE_DIR:STATIC=/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/parseAis
+
+//Value Computed by CMake
+pk_msg_BINARY_DIR:STATIC=/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/build/pk_msg
+
+//The directory containing a CMake configuration file for pk_msg.
+pk_msg_DIR:PATH=/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/devel/share/pk_msg/cmake
+
+//Value Computed by CMake
+pk_msg_SOURCE_DIR:STATIC=/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/pk_msg
 
 //The directory containing a CMake configuration file for rosconsole.
 rosconsole_DIR:PATH=/opt/ros/lunar/share/rosconsole/cmake
@@ -325,6 +373,9 @@ roscpp_serialization_DIR:PATH=/opt/ros/lunar/share/roscpp_serialization/cmake
 //The directory containing a CMake configuration file for roscpp_traits.
 roscpp_traits_DIR:PATH=/opt/ros/lunar/share/roscpp_traits/cmake
 
+//The directory containing a CMake configuration file for rosgraph.
+rosgraph_DIR:PATH=/opt/ros/lunar/share/rosgraph/cmake
+
 //The directory containing a CMake configuration file for rosgraph_msgs.
 rosgraph_msgs_DIR:PATH=/opt/ros/lunar/share/rosgraph_msgs/cmake
 
@@ -334,8 +385,26 @@ rospy_DIR:PATH=/opt/ros/lunar/share/rospy/cmake
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/lunar/share/rostime/cmake
 
+//The directory containing a CMake configuration file for sensor_msgs.
+sensor_msgs_DIR:PATH=/opt/ros/lunar/share/sensor_msgs/cmake
+
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/lunar/share/std_msgs/cmake
+
+//The directory containing a CMake configuration file for tf2.
+tf2_DIR:PATH=/opt/ros/lunar/share/tf2/cmake
+
+//The directory containing a CMake configuration file for tf2_msgs.
+tf2_msgs_DIR:PATH=/opt/ros/lunar/share/tf2_msgs/cmake
+
+//The directory containing a CMake configuration file for tf2_py.
+tf2_py_DIR:PATH=/opt/ros/lunar/share/tf2_py/cmake
+
+//The directory containing a CMake configuration file for tf2_ros.
+tf2_ros_DIR:PATH=/opt/ros/lunar/share/tf2_ros/cmake
+
+//The directory containing a CMake configuration file for tf.
+tf_DIR:PATH=/opt/ros/lunar/share/tf/cmake
 
 //The directory containing a CMake configuration file for xmlrpcpp.
 xmlrpcpp_DIR:PATH=/opt/ros/lunar/share/xmlrpcpp/cmake
@@ -442,7 +511,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

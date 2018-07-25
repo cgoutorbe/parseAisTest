@@ -118,6 +118,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/build/gtest/cmake_install.cmake")
   include("/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/build/parseAis/cmake_install.cmake")
+  include("/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/build/pk_msg/cmake_install.cmake")
+  include("/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/build/ais_decodeur/cmake_install.cmake")
 
 endif()
 
