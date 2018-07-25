@@ -2,7 +2,7 @@
 #include "std_msgs/String.h"
 #include "ros/ros.h"
 
-int recoThread::connect_socket(struct sockaddr_in* adr, int size) {
+int recoThread::connect_socket(struct sockaddr_in* adr, int size,int sock) {
 	std::cout << "CONNECTION DU SOCKET\n\n"<< std::endl;
 
 	if(connect(sock,(struct sockaddr*) adr,size) ==-1)
@@ -21,7 +21,7 @@ int recoThread::adr_init(struct sockaddr_in* adr){
 	return 0;
 }
 
-int recoThread::receive_NMEA(){
+int recoThread::receive_NMEA(int sock){
 	// receives NMEA Strings from rtl_ais via TCP
 	// the recv runs for 5 seconds 
 	time_t start,end;
@@ -47,7 +47,7 @@ int recoThread::receive_NMEA(){
 	return 0;
 }
 
-int recoThread::is_disconnected(){
+int recoThread::is_disconnected(int sock){
 	char temp;
 	//test whether the socket is connected or not 
 	
@@ -86,6 +86,9 @@ int main(int argc, char** argv){
 	r.adr_init(&adr); 
 	int size = sizeof(adr);
 
+	system("~/rtl/rtl-ais/./rtl_ais -g 42 -p 0.6 -T &");
+	sleep(5);
+
 	ros::init(argc,argv, "get_nmea_strings");
 	ros::NodeHandle n;
 	
@@ -95,11 +98,11 @@ int main(int argc, char** argv){
 	while(ros::ok()){
 		
 		
-		int sock2 = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP );
-		r.sock = sock2; 
-		r.sock = r.connect_socket(pAdr,size);
+		int sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP );
+		sock = r.connect_socket(pAdr,size,sock);
+		//std::cout << "after the connection"  << std::endl;
 
-		std::thread rec (&recoThread::receive_NMEA,&r);
+		std::thread rec (&recoThread::receive_NMEA,&r,sock);
 		rec.join();
 		
 		r.NMEAPub.publish(r.msg);
