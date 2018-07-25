@@ -20,16 +20,16 @@
 
 class recoThread{
 	public:
-		int connect_socket( struct sockaddr_in* adr,int size);
+		int connect_socket( struct sockaddr_in* adr,int size,int sock);
 		int adr_init(struct sockaddr_in* adr);
-		int receive_NMEA();
-		int is_disconnected();
+		int receive_NMEA(int sock);
+		int is_disconnected(int sock);
 		int publish_buffer(char* buffer);
 		int reception_loop();
 
 		std_msgs::String msg;
 		char buffer[1000];
-		int sock;
+		//int sock;
 
 //	private:
 	ros::Publisher NMEAPub;
