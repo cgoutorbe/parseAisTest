@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/parseAis/include/NMEA.h
+
+/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/parseAis/include/check.h
+iostream
+-
+
+/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/parseAis/src/NMEA.cpp
+NMEA.h
+/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/parseAis/src/NMEA.h
+iostream
+-
+
+/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/parseAis/src/check.cpp
+check.h
+/home/charlie/Documents/SPID/catamaran/parseAisTest/ROS_NODE/src/parseAis/src/check.h
+
