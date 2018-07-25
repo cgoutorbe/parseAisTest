@@ -41,12 +41,12 @@ vector<string> split(string str, string sep){
   char* cstr = const_cast<char*>(str.c_str());
   char* current;
   vector<string> arr;
-  current = strok(cstr, sep.c_str());
-  while(current ! = NULL){
+  current = strtok(cstr, sep.c_str());
+  while(current != NULL){
     arr.push_back(current);
-    current = strok(NULL, sep.sep.c_str());
+    current = strtok(NULL, sep.c_str());
   }
-  return arr
+  return arr;
 }
 //function which is calling by subsriber
 void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
