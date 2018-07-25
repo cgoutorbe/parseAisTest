@@ -41,12 +41,12 @@ vector<string> split(string str, string sep){
   char* cstr = const_cast<char*>(str.c_str());
   char* current;
   vector<string> arr;
-  current = strok(cstr, sep.c_str());
-  while(current ! = NULL){
+  current = strtok(cstr, sep.c_str());
+  while(current != NULL){
     arr.push_back(current);
     current = strok(NULL, sep.sep.c_str());
   }
-  return arr
+  return arr;
 }
 //function which is calling by subsriber
 void ChatBack_data_payload(const std_msgs::String::ConstPtr& msg){
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
 		for(size_t compt(0); compt< ais_string.size(); compt++){
 	// convert 6 bit string to binary
 			ais_binary = "";
-			for (x=0; x<ais_string.length(); x++){
+			for (x=0; x<ais_string.size(); x++){
 				int z,y;
 				z = ais_string[x];
 				y = (x+1) * 6-5;
