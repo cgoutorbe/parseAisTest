@@ -11,4 +11,5 @@ threadFails
 .DS_Store
 recoThread.o
 *.swp
-
+ROS_NODE/devel/*
+ROS_NODE/build/*

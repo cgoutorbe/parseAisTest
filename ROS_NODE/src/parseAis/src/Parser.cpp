@@ -56,7 +56,7 @@ char* Parser::create_vector(char* vector, char *p){
 		y=end_trame(p,y);
 		//on va construire le vecteur a mettre dans l'objet NMEA
 		p = champ_suivant(p);
-		if(i<3){
+	if(i<3){
 			res = nmea_uint(p);
 			memcpy(vector+i*sizeof(int),&res,sizeof(int));
 			len+=sizeof(int);
@@ -85,7 +85,8 @@ void Parser::chat_back(const std_msgs::String::ConstPtr& buffer){
 	pCheck = create_vector(pTrame,copymsg);
 	if( check_nmea_checksum(pCheck,copymsg)){
 		//data_msg = trameStruct.dataPayload;
-		msg.data = std::string(trameStruct.dataPayload);
+		//msg.data.push_back(std::string(trameStruct.dataPayload));
+		msg.data += std::string(trameStruct.dataPayload)+"\n";
 		//memcpy(data_msg,(char*) trameStruct.dataPayload,83*sizeof(char));
 	}
 	else{
@@ -107,7 +108,7 @@ int main(int argc,char** argv){ //rename into main to test
 		ros::NodeHandle n;
 	
 		ros::Subscriber trameNMEA = n.subscribe("NMEA",1000,&Parser::chat_back, &parser);
-		ros::Publisher Data = n.advertise<std_msgs::String>("Data_Payload", 83);
+		ros::Publisher Data = n.advertise<std_msgs::String>("Data_Payload", 1000);
 
 		
 
@@ -130,6 +131,7 @@ int main(int argc,char** argv){ //rename into main to test
 		//	msg = trameStruct.dataPayload;
 			std::cout<<parser.msg.data << std::endl;
 			Data.publish(parser.msg);
+			parser.msg.data.clear();
 
 			ros::spinOnce();
 			loop_rate.sleep();
