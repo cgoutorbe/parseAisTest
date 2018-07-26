@@ -137,6 +137,7 @@ int main(int argc, char **argv)
 	ros::Publisher chat_ais = n.advertise<pk_msg::AisMultiArray>("Ais_infos", 1000);
 	pk_msg::Ais mes_ais;
 	pk_msg::AisMultiArray Tab_Ais;
+	Tab_Ais.layout.dim = 15;
 
 	//Subscriber
 	ros::Subscriber sub_data_payload = n.subscribe("Data_Payload", 1000, ChatBack_data_payload);
@@ -216,6 +217,7 @@ int main(int argc, char **argv)
 
 	//Fill the message table
 			Tab_Ais.data.push_back(mes_ais);
+
 		}
 	}
 	//Send the table
