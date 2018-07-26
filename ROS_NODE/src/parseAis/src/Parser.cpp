@@ -41,7 +41,6 @@ int Parser::end_trame(char* p,int i){
 	if(*(p-1) == ','){ return i-1;}
 	
 	return i;
-
 }
 
 char* Parser::create_vector(char* vector, char *p){
@@ -72,21 +71,26 @@ char* Parser::create_vector(char* vector, char *p){
 	p = champ_suivant(p); //decale de dataPayload
 	return champ_suivant(p); //decale du FillBit on a le checksum direct
 	}
-void Parser::chat_back(const std_msgs::String::ConstPtr& buffer){
-	
+
+void Parser::create_msg(char *buffer){	
 	// init of pointer to the newly received buffer 	
 	unsigned char checksum;
 	unsigned char* pchecksum = &checksum;
 	char* pCheck;
 	NMEA trameStruct;
 	char* pTrame = (char*) &trameStruct;
-	char* copymsg = new char[buffer->data.length()];
-	memcpy(copymsg,buffer->data.c_str(),buffer->data.length());
-	pCheck = create_vector(pTrame,copymsg);
-	if( check_nmea_checksum(pCheck,copymsg)){
+
+	
+	//memcpy(copymsg,buffer->data.c_str(),buffer->data.length());
+	//pCheck = create_vector(pTrame,copymsg);
+
+	pCheck = create_vector(pTrame,buffer);
+	std::cout << "failed at checksum ?" << std::endl;
+	if( check_nmea_checksum(pCheck,buffer)){
 		//data_msg = trameStruct.dataPayload;
 		//msg.data.push_back(std::string(trameStruct.dataPayload));
 		msg.data += std::string(trameStruct.dataPayload)+"\n";
+		std::cout << "ENVOI MSG: \n"<< msg.data << std::endl;
 		//memcpy(data_msg,(char*) trameStruct.dataPayload,83*sizeof(char));
 	}
 	else{
@@ -95,7 +99,27 @@ void Parser::chat_back(const std_msgs::String::ConstPtr& buffer){
 		msg.data = "\0";
 
 	}
+}
+void Parser::chat_back(const std_msgs::String::ConstPtr& buffer){
+	//separates the strings based on \n character
+
+	char* copymsg = new char[buffer->data.length()];
+	memcpy(copymsg,buffer->data.c_str(),buffer->data.length());
+	std::istringstream trames(copymsg);
+	std::string line;
+	//char line[100];
+
+	while (std::getline(trames, line)) {
+			//read every strings recieved 
+		
+		        create_msg((char*) line.c_str());
+			std::cout <<"trame:  "<< line << std::endl;
+			
+			    }
+	std::cout << "fin du while" << std::endl;
 	delete copymsg;
+	
+
 }
 
 int main(int argc,char** argv){ //rename into main to test
@@ -110,21 +134,6 @@ int main(int argc,char** argv){ //rename into main to test
 		ros::Subscriber trameNMEA = n.subscribe("NMEA",1000,&Parser::chat_back, &parser);
 		ros::Publisher Data = n.advertise<std_msgs::String>("Data_Payload", 1000);
 
-		
-
-		//trameStruct.represent();
-		
-		/********************************************************
-		 * 							*
-		 * 		     AVEC CHECKSUM                      * 
-		 * 							*
-		 ********************************************************/
-/*		
-		unsigned char checksum;
-		unsigned char* pchecksum = &checksum;
-
-		std::cout << check_nmea_checksum(pCheck,pointeur) << std::endl;
-*/
 		ros::Rate loop_rate(20);
 		while(ros::ok()){
 			
@@ -137,8 +146,6 @@ int main(int argc,char** argv){ //rename into main to test
 			loop_rate.sleep();
 
 		}
-
-
 
 		return 0;
 }

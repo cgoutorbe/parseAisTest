@@ -18,6 +18,7 @@ class Parser{
 	unsigned int nmea_uint(char* p);
 	int end_trame(char* p,int i);
 	char* create_vector(char* vector , char* p);
+	void create_msg(char* buffer);
 	int parser(char *pointeur);
 	void chat_back(const std_msgs::String::ConstPtr& buffer);
 
